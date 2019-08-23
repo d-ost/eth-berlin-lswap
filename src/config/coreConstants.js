@@ -24,6 +24,33 @@ class CoreConstants {
   get AUX_WS_PROVIDER() {
     return process.env.AUX_WS_PROVIDER;
   }
+
+  get originChainId() {
+    return 100;
+  }
+
+  get auxChainId() {
+    return 1407;
+  }
+
+  getOriginChainContractAddress(tokenName) {
+    switch (tokenName) {
+      case 'ost':
+        return '0x111';
+      default:
+        throw `Invalid ${tokenName}`;
+    }
+  }
+
+  getAuxChainContractAddress(tokenName) {
+    switch (tokenName) {
+      case 'ost':
+        return '0x222';
+      default:
+        throw `Invalid ${tokenName}`;
+    }
+  }
+
 }
 
 module.exports = new CoreConstants();

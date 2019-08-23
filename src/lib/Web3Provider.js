@@ -4,7 +4,7 @@ const rootPrefix = '../../',
 
 const web3Clients = {};
 
-class Web3Interact {
+class Web3Provider {
 
   constructor(wsProvider) {
     const oThis = this;
@@ -27,7 +27,6 @@ class Web3Interact {
     return web3;
   }
 
-
 }
 
-module.exports = new Web3Interact();
+module.exports = Web3Provider;
