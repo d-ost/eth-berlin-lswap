@@ -1,4 +1,3 @@
-'use strict';
 
 class CoreConstants {
 
@@ -53,4 +52,10 @@ class CoreConstants {
 
 }
 
-module.exports = new CoreConstants();
+  get ORIGIN_BURNER_KEY(){
+    return 'origin-burner-key'
+  }
+
+}
+
+export default coreConstants = new CoreConstants();
