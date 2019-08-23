@@ -1,4 +1,3 @@
-
 class CoreConstants {
 
   constructor() {
@@ -65,9 +64,7 @@ class CoreConstants {
     }
   }
 
-}
-
-  get ORIGIN_BURNER_KEY(){
+  get ORIGIN_BURNER_KEY() {
     return 'origin-burner-key'
   }
 

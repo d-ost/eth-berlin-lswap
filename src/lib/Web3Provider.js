@@ -29,4 +29,4 @@ class Web3Provider {
 
 }
 
-module.exports = Web3Provider;
+export default Web3Provider;

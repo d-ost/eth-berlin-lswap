@@ -58,4 +58,4 @@ class GetBalance {
   }
 }
 
-module.exports = GetBalance;
+export default GetBalance;
