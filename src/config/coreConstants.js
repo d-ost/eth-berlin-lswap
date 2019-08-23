@@ -32,6 +32,21 @@ class CoreConstants {
     return 1407;
   }
 
+  get erc20Tokens() {
+    return ['OST', 'WETH'];
+  }
+
+  get chainConfig() {
+    return {
+      origin: {
+        chainId: CoreConstants.originChainId
+      },
+      aux: {
+        chainId: CoreConstants.auxChainId
+      }
+    }
+  }
+
   getOriginChainContractAddress(tokenName) {
     switch (tokenName) {
       case 'ost':
