@@ -67,7 +67,7 @@ class GetBalance {
         .methods
         .balanceOf(oThis.address)
         .call({}).then(function (balance) {
-        oThis.balance = balance || 0;
+        oThis.balance = balance.toString(10);
       });
     }
   }
