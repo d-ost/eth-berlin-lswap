@@ -40,37 +40,38 @@ class CoreConstants {
   }
 
   get erc20Tokens() {
-    return [CoreConstants.ostTokenName, CoreConstants.wethTokenName];
+    return [this.ostTokenName, this.wethTokenName];
   }
 
   get chainConfig() {
     return {
       origin: {
-        chainId: CoreConstants.originChainId
+        chainId: this.originChainId
       },
       aux: {
-        chainId: CoreConstants.auxChainId
+        chainId: this.auxChainId
       }
     }
   }
 
   getOriginChainContractAddress(tokenName) {
+    console.log(this.ostTokenName, 'this.ostTokenName');  
     switch (tokenName) {
-      case CoreConstants.ostTokenName:
+      case this.ostTokenName:
         return '0xd426b22f3960d01189a3D548B45A7202489Ff4De';
-      case CoreConstants.wethTokenName:
+      case this.wethTokenName:
         return '0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6';
       default:
-        throw `Invalid ${tokenName}`;
+        throw `Invalid ${tokenName} for origin`;
     }
   }
 
   getAuxChainContractAddress(tokenName) {
     switch (tokenName) {
-      case CoreConstants.wethTokenName:
+      case this.wethTokenName:
         return '0xBB5676d85d28DA039F982C07E4217fB0FDB2c2ef';
       default:
-        throw `Invalid ${tokenName}`;
+        throw `Invalid ${tokenName} for aux`;
     }
   }
 

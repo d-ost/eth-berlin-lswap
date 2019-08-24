@@ -1,6 +1,4 @@
-const rootPrefix = '../../',
-  Web3 = require('web3'),
-  coreConstants = require(rootPrefix + 'src/config/coreConstants');
+const Web3 = require('web3');
 
 const web3Clients = {};
 
