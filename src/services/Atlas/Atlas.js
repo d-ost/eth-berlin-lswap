@@ -4,15 +4,20 @@ class Atlas {
   constructor(
     parentIpfsPath,
     index,
+    burnerPrivateKey,
     safeAddress,
     recoveryModuleAddress,
     recoveryPrivateKey,
     shares,
+    contacts,
   ) {
     assert(typeof parentIpfsPath === 'string');
 
     assert(typeof index === 'number');
     assert(index >= 0);
+
+    assert(typeof burnerPrivateKey === 'string');
+    assert(burnerPrivateKey !== '');
 
     assert(
       (parentIpfsPath === '' && index === 0)
@@ -30,12 +35,16 @@ class Atlas {
 
     assert(typeof shares === 'object');
 
+    assert(Array.isArray(contacts));
+
     this.parentIpfsPath = parentIpfsPath;
     this.index = index;
+    this.burnerPrivateKey = burnerPrivateKey;
     this.safeAddress = safeAddress;
     this.recoveryModuleAddress = recoveryModuleAddress;
     this.recoveryPrivateKey = recoveryPrivateKey;
     this.shares = shares;
+    this.contacts = contacts;
   }
 }
 

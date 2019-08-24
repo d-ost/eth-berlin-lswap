@@ -1,4 +1,21 @@
 module.exports = {
-  root: true,
-  extends: '@react-native-community',
-};
+    "extends": [
+        "airbnb-base"
+    ],
+    "rules": {
+        "no-console": "off",
+        "no-underscore-dangle": "off",
+        "import/no-extraneous-dependencies": "off",
+        "strict": "off"
+    },
+    "env": {
+        "mocha": true,
+        "node": true,
+        "es6": true
+    },
+    "globals": {
+        "artifacts": false,
+        "contract": false,
+        "assert": false
+    }
+}

@@ -1,12 +1,18 @@
 {
     "parentHash": "",
     "index": 0,
-    "safe": {
-        "address": "",
-        "recoveryModuleAddress": "",
-        "recoveryPrivateKey": ""
-    },
+    "burnerPrivateKey": "",
+    "safeAddress" : "",
+    "recoveryModuleAddress": "",
+    "recoveryPrivateKey": "",
     "shares": {
-        "username": ""
-    }
+        "": ""
+    },
+    "contacts": [
+        {
+            "username": "",
+            "safeL1Address": "",
+            "alias": ""
+        }
+    ]
 }

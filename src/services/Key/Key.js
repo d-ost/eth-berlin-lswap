@@ -4,18 +4,18 @@ const Scrypt = require('scrypt');
 const web3utils = require('web3-utils');
 
 class Key {
-  constructor(userAddress, pin) {
-    assert(typeof userAddress === 'string');
-    assert(userAddress !== '');
+  constructor(username, pin) {
+    assert(typeof username === 'string');
+    assert(username !== '');
 
-    this.userAddress = userAddress;
+    this.username = username;
 
     assert(typeof pin === 'string');
     assert(pin !== '');
 
     this.pin = pin;
 
-    this.userSecret = Key.calculateUserSecret(this.userAddress, this.pin);
+    this.userSecret = Key.calculateUserSecret(this.username, this.pin);
     assert(typeof this.userSecret === 'string');
     assert(this.userSecret !== '');
 
@@ -25,26 +25,7 @@ class Key {
 
     this.encryptionKey = Key.calculateEncryptionKey(this.userSecret, this.salt);
     assert(this.encryptionKey.length !== 0);
-
-    // this.ipnsPemKey = crypto.generateKeyPairSync('rsa', {
-    //   modulusLength: 4096,
-    //   publicKeyEncoding: {
-    //     type: 'spki',
-    //     format: 'pem',
-    //   },
-    //   privateKeyEncoding: {
-    //     type: 'pkcs8',
-    //     format: 'pem',
-    //   },
-    // });
   }
-
-  // pem() {
-  //   assert(typeof this.ipnsPemKey.privateKey === 'string');
-  //   assert(this.ipnsPemKey.privateKey !== '');
-
-  //   return this.ipnsPemKey.privateKey;
-  // }
 
   encrypt(data) {
     const cipher = crypto.createCipheriv('aes-256-cbc', this.encryptionKey, Buffer.alloc(16, 0));
@@ -61,16 +42,16 @@ class Key {
     return decrypted;
   }
 
-  static calculateUserSecret(userAddress, pin) {
-    assert(typeof userAddress === 'string');
-    assert(userAddress !== '');
+  static calculateUserSecret(username, pin) {
+    assert(typeof username === 'string');
+    assert(username !== '');
 
     assert(typeof pin === 'string');
     assert(pin !== '');
 
     return web3utils.sha3(
       JSON.stringify({
-        userAddress,
+        username,
         pin,
       }),
     );

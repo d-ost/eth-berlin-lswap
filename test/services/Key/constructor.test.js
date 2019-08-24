@@ -4,14 +4,14 @@ const Key = require('../../../src/services/Key/Key');
 
 describe('Key::constructor', async () => {
   it('checks validity of members after creation', async () => {
-    const userAddress = 'userAddress';
+    const username = 'username';
     const pin = '123456';
 
-    const key = new Key(userAddress, pin);
+    const key = new Key(username, pin);
 
     assert.strictEqual(
-      key.userAddress,
-      userAddress,
+      key.username,
+      username,
     );
 
     assert.strictEqual(
@@ -33,11 +33,11 @@ describe('Key::constructor', async () => {
   });
 
   it('checks similarity and dis-similarity of members in case of the same inputs', async () => {
-    const userAddress = 'userAddress';
+    const username = 'username';
     const pin = '123456';
 
-    const key1 = new Key(userAddress, pin);
-    const key2 = new Key(userAddress, pin);
+    const key1 = new Key(username, pin);
+    const key2 = new Key(username, pin);
 
     assert.strictEqual(
       key1.userSecret,

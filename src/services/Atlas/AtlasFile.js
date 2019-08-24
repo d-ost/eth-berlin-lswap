@@ -7,6 +7,7 @@ class AtlasFile {
   constructor(
     ipfsClient,
     key,
+    burnerPrivateKey,
     safeAddress,
     recoveryModuleAddress,
     recoveryPrivateKey,
@@ -17,10 +18,12 @@ class AtlasFile {
     this.atlas = new Atlas(
       '',
       0,
+      burnerPrivateKey,
       safeAddress,
       recoveryModuleAddress,
       recoveryPrivateKey,
       {},
+      [],
     );
 
     this.ipfsPath = '';
@@ -81,6 +84,7 @@ class AtlasFile {
     const atlasFile = new AtlasFile(
       ipfsClient,
       key,
+      atlas.burnerPrivateKey,
       atlas.safeAddress,
       atlas.recoveryModuleAddress,
       atlas.recoveryPrivateKey,
@@ -89,20 +93,29 @@ class AtlasFile {
     atlasFile.atlas.parentIpfsPath = atlas.parentIpfsPath;
     atlasFile.atlas.index = atlas.index;
     atlasFile.atlas.shares = atlas.shares;
+    atlasFile.atlas.contacts = atlas.contacts;
 
     atlasFile.ipfsPath = ipfsPath;
 
     return atlasFile;
   }
 
-  updateFriendShamirSecret(userAddress, secret) {
-    assert(typeof userAddress === 'string');
-    assert(userAddress !== '');
+  updateContactShamirSecret(username, secret) {
+    assert(typeof username === 'string');
+    assert(username !== '');
 
     assert(typeof secret === 'string');
     assert(secret !== '');
 
-    this.atlas.shares[userAddress] = secret;
+    this.atlas.shares[username] = secret;
+  }
+
+  addContact(username, safeL1Address, alias) {
+    this.atlas.contacts.push({
+      username,
+      safeL1Address,
+      alias,
+    });
   }
 }
 

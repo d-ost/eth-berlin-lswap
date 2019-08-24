@@ -13,10 +13,10 @@ function getRandomIntInclusive(_min, _max) {
 
 describe('Key::encryption', async () => {
   it('happy paths', async () => {
-    const userAddress = 'userAddress';
+    const username = 'username';
     const pin = '123456';
 
-    const key = new Key(userAddress, pin);
+    const key = new Key(username, pin);
 
     const data = Buffer.from('something to encrypt');
 
@@ -30,10 +30,10 @@ describe('Key::encryption', async () => {
 
   it('fuzzy test', async () => {
     for (let i = 0; i < 20; i += 1) {
-      const userAddress = crypto.randomBytes(getRandomIntInclusive(5, 20)).toString();
+      const username = crypto.randomBytes(getRandomIntInclusive(5, 20)).toString();
       const pin = crypto.randomBytes(6).toString();
 
-      const key = new Key(userAddress, pin);
+      const key = new Key(username, pin);
 
       const data = crypto.randomBytes(getRandomIntInclusive(5, 200));
 

@@ -13,10 +13,9 @@ function getRandomIntInclusive(_min, _max) {
 
 describe('AccessFile::recoverFromShares', async () => {
   it('1 out of 1', async () => {
-    const atlasIpnsAddress = 'atlasIpnsAddressA';
     const salt = 'saltA';
 
-    const accessFile = new AccessFile(atlasIpnsAddress, salt);
+    const accessFile = new AccessFile(salt);
 
     const shareCount = 1;
     const threshold = 1;
@@ -30,21 +29,15 @@ describe('AccessFile::recoverFromShares', async () => {
     const recovered = AccessFile.recoverFromShares(shares);
 
     assert.strictEqual(
-      recovered.atlasIpnsAddress,
-      atlasIpnsAddress,
-    );
-
-    assert.strictEqual(
       recovered.salt,
       salt,
     );
   });
 
   it('1 out of 2', async () => {
-    const atlasIpnsAddress = 'atlasIpnsAddressA';
     const salt = 'saltA';
 
-    const accessFile = new AccessFile(atlasIpnsAddress, salt);
+    const accessFile = new AccessFile(salt);
 
     const shareCount = 2;
     const threshold = 1;
@@ -59,11 +52,6 @@ describe('AccessFile::recoverFromShares', async () => {
       const recovered = AccessFile.recoverFromShares(shares.slice(0, 1));
 
       assert.strictEqual(
-        recovered.atlasIpnsAddress,
-        atlasIpnsAddress,
-      );
-
-      assert.strictEqual(
         recovered.salt,
         salt,
       );
@@ -71,11 +59,6 @@ describe('AccessFile::recoverFromShares', async () => {
 
     {
       const recovered = AccessFile.recoverFromShares(shares.slice(1));
-
-      assert.strictEqual(
-        recovered.atlasIpnsAddress,
-        atlasIpnsAddress,
-      );
 
       assert.strictEqual(
         recovered.salt,
@@ -89,10 +72,9 @@ describe('AccessFile::recoverFromShares', async () => {
       const shareCount = getRandomIntInclusive(2, 10);
       const threshold = getRandomIntInclusive(1, shareCount);
 
-      const atlasIpnsAddress = crypto.randomBytes(getRandomIntInclusive(5, 100)).toString();
       const salt = crypto.randomBytes(getRandomIntInclusive(5, 100)).toString().toString();
 
-      const accessFile = new AccessFile(atlasIpnsAddress, salt);
+      const accessFile = new AccessFile(salt);
 
       const shares = accessFile.createShares(shareCount, threshold);
 
@@ -110,11 +92,6 @@ describe('AccessFile::recoverFromShares', async () => {
       const knownShareAmount = getRandomIntInclusive(threshold, shareCount);
 
       const recovered = AccessFile.recoverFromShares(shares.slice(0, knownShareAmount));
-
-      assert.strictEqual(
-        recovered.atlasIpnsAddress,
-        atlasIpnsAddress,
-      );
 
       assert.strictEqual(
         recovered.salt,

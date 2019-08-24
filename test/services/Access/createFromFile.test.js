@@ -7,11 +7,6 @@ describe('AccessFile::createFromFile', async () => {
     const accessFile = AccessFile.createFromFile('./test/services/Access/data/accessFileA.json');
 
     assert.strictEqual(
-      accessFile.atlasIpnsAddress,
-      'atlasIpnsAddressA',
-    );
-
-    assert.strictEqual(
       accessFile.salt,
       'saltA',
     );

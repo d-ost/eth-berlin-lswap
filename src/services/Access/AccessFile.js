@@ -1,16 +1,22 @@
-
 const assert = require('assert');
 const fs = require('fs');
 const sss = require('shamirs-secret-sharing');
 
 class AccessFile {
+  constructor(salt) {
+    assert(typeof salt === 'string');
+    assert(salt !== '');
+
+    this.salt = salt;
+  }
+
   static createFromFile(filePath) {
     assert(typeof filePath === 'string');
     assert(filePath !== '');
 
     const content = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
-    return new AccessFile(content.atlasIpnsAddress, content.salt);
+    return new AccessFile(content.salt);
   }
 
   static recoverFromShares(shares) {
@@ -18,23 +24,11 @@ class AccessFile {
     assert(shares.length > 0);
 
     const secret = sss.combine(shares).toString();
-
     assert(secret !== '');
 
     const jsonObj = JSON.parse(secret);
 
-    return new AccessFile(jsonObj.atlasIpnsAddress, jsonObj.salt);
-  }
-
-  constructor(atlasIpnsAddress, salt) {
-    this.salt = salt;
-    this.atlasIpnsAddress = atlasIpnsAddress;
-
-    assert(typeof this.salt === 'string');
-    assert(typeof this.atlasIpnsAddress === 'string');
-
-    assert(this.salt !== '');
-    assert(this.atlasIpnsAddress !== '');
+    return new AccessFile(jsonObj.salt);
   }
 
   createShares(shareCount, threshold) {
@@ -47,13 +41,12 @@ class AccessFile {
 
     const recoveredObj = AccessFile.recoverFromShares(shares);
     assert(recoveredObj.salt = this.salt);
-    assert(recoveredObj.atlasIpnsAddress = this.atlasIpnsAddress);
 
     return shares;
   }
 
   serialize() {
-    return JSON.stringify({ salt: this.salt, atlasIpnsAddress: this.atlasIpnsAddress });
+    return JSON.stringify({ salt: this.salt });
   }
 }
 
