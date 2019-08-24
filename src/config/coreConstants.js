@@ -122,7 +122,12 @@ class CoreConstants {
     return 'tokenUniSwapStep';
   }
 
-  get layerSwapStep() {
+    get AUX_BURNER_KEY(){
+        return 'aux-burner-key'
+  }
+
+
+    get layerSwapStep() {
     return 'layerSwapStep';
   }
 
