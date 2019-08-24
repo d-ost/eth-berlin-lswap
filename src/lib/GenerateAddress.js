@@ -9,7 +9,7 @@ class GenerateAddress {
   get perform() {
     const web3Object = new Web3();
     let newAddress = web3Object.eth.accounts.create(web3Object.utils.randomHex(32));
-    return {success: true, data: {publicKey: newAddress.address, privateKey: newAddress.privateKey}};
+    return {success: true, data: {address: newAddress.address, privateKey: newAddress.privateKey}};
   }
 
 }

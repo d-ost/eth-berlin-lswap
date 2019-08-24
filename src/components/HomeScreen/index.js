@@ -12,6 +12,7 @@ import GenerateAddress from '../../lib/GenerateAddress';
 
     componentDidMount(){
         this.checkForBurnerKey();
+
     }
 
 

@@ -24,15 +24,23 @@ class CoreConstants {
   }
 
   get originChainId() {
-    return 100;
+    return 5;
   }
 
   get auxChainId() {
-    return 1407;
+    return 1405;
+  }
+
+  get ostTokenName() {
+    return 'OST'
+  }
+
+  get wethTokenName() {
+    return 'WETH'
   }
 
   get erc20Tokens() {
-    return ['OST', 'WETH'];
+    return [CoreConstants.ostTokenName, CoreConstants.wethTokenName];
   }
 
   get chainConfig() {
@@ -48,8 +56,10 @@ class CoreConstants {
 
   getOriginChainContractAddress(tokenName) {
     switch (tokenName) {
-      case 'ost':
-        return '0x111';
+      case CoreConstants.ostTokenName:
+        return '0xd426b22f3960d01189a3D548B45A7202489Ff4De';
+      case CoreConstants.wethTokenName:
+        return '0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6';
       default:
         throw `Invalid ${tokenName}`;
     }
@@ -57,8 +67,8 @@ class CoreConstants {
 
   getAuxChainContractAddress(tokenName) {
     switch (tokenName) {
-      case 'ost':
-        return '0x222';
+      case CoreConstants.wethTokenName:
+        return '0xBB5676d85d28DA039F982C07E4217fB0FDB2c2ef';
       default:
         throw `Invalid ${tokenName}`;
     }
