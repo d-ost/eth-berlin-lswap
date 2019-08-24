@@ -78,6 +78,14 @@ class CoreConstants {
     return 'origin-burner-key'
   }
 
+  get tokenUniSwapStep(){
+    return 'tokenUniSwapStep';
+  }
+
+  get layerSwapStep(){
+    return 'layerSwapStep';
+  }
+
 }
 
 export default new CoreConstants();
