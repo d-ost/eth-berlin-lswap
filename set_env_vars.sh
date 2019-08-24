@@ -1,0 +1,3 @@
+export ENVIRONMENT='development'
+export ORIGIN_WS_PROVIDER='127.0.0.1:8080'
+export AUX_WS_PROVIDER='127.0.0.1:8080'
