@@ -77,8 +77,6 @@ describe('AtlasFile::HappyPath', async () => {
       {},
     );
 
-    await atlasFile1.setupKey();
-
     await atlasFile1.publish();
 
     let atlasFile2 = await AtlasFile.createFromFile(

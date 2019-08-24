@@ -1,5 +1,4 @@
 const assert = require('assert');
-const crypto = require('crypto');
 
 const Atlas = require('./Atlas');
 
@@ -29,20 +28,7 @@ class AtlasFile {
     this.ipfsPath = '';
   }
 
-  async setupKey() {
-    const response = await this.ipfsClient.key.gen(crypto.randomBytes(20).toString(), {
-      type: 'rsa',
-      size: 2048,
-    });
-
-    this.ipfsKeyName = response.name;
-    this.ipfsKeyId = response.id;
-  }
-
   async publish() {
-    assert(this.ipfsKeyName !== '');
-    assert(this.ipfsKeyId !== '');
-
     if (this.ipfsPath !== '') {
       this.atlas.index += 1;
       this.atlas.parentIpfsPath = this.ipfsPath;
