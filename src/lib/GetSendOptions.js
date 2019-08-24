@@ -1,8 +1,9 @@
-import coreConstants from '../../config/coreConstants';
+import coreConstants from '../config/coreConstants';
 
 class GetSendOptions {
 
   constructor(params) {
+    console.log(params, 'paramsparamsparamsparamsparams');
     const oThis = this;
     console.log(params, 'params GetSendOptions');
 
@@ -54,9 +55,9 @@ class GetSendOptions {
       let mintAamount = oThis.sendTokenAmount - oThis.senderAuxTokenBalance;
       let config = {
         [coreConstants.layerSwapStep]: {
-          msg: `Move ${mintAamount} ${oThis.sendTokenName} to ${auxChainKind.toUpperCase()} CHAIN`,
+          msg: `Move ${mintAamount} ${oThis.sendTokenName} to ${coreConstants.auxChainKind.toUpperCase()} CHAIN`,
           mandatory: 1,
-          errMsg: `Not Enough Funds on ${auxChainKind.toUpperCase()} CHAIN`,
+          errMsg: `Not Enough Funds on ${coreConstants.auxChainKind.toUpperCase()} CHAIN`,
           executeParams: {
             amount: mintAamount
           }

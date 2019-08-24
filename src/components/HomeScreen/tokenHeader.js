@@ -7,7 +7,7 @@ class TokenHeader extends Component {
 
   showButtons(){
     return <div>
-            <button className='btn btn-primary' style={{backgroundColor: 'rgb(52, 68, 91)', borderColor: '#4e5d71'}} >Send</button>
+            <button className='btn btn-primary' style={{backgroundColor: 'rgb(52, 68, 91)', borderColor: '#4e5d71' }} onClick={() => {this.props.showSend(this.props.tokenName, this.props.totalBalance, this.props.tokenInfo)}} >Send</button>
             
           </div>
   }

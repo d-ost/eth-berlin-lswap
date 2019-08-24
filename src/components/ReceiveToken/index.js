@@ -33,19 +33,19 @@ class ReceiveToken extends Component {
     generateQRCode = () => {
       console.log('generateQRCode');
       ls.getItem(coreConstants.ORIGIN_BURNER_KEY).then((originBurnerKey)=>{
-      let qrcodeValue =  {
-        origin_address: JSON.parse(originBurnerKey).address,
-        preferred_token: this.state.currency,
-        allow_aux: this.state.chain == 'AUX' ? 1 : 0      
+      let qrcodeValue = {
+        originAddress: JSON.parse(originBurnerKey).address,
+        preferredToken: this.state.currency,
+        allowAux: this.state.chain == 'AUX' ? 1 : 0
     }
 
     if(this.AuxBurnerKey){
-        qrcodeValue.aux_address =   JSON.parse(this.AuxBurnerKey).address; 
+        qrcodeValue.auxAddress =   JSON.parse(this.AuxBurnerKey).address;
     }
       this.setState({qrcodeValue: JSON.stringify(qrcodeValue)});
       console.log(originBurnerKey, 'originBurnerKey');
       });
-      
+
   }
 
   render() {
@@ -124,12 +124,21 @@ class ReceiveToken extends Component {
             </div>
 
 
-
           </div>
         </div> : 
         <div>
-            <QR style={{width: '70%', height: 'auto', marginRight: 'auto', marginLeft: 'auto'}} value={this.state.qrcodeValue}/>
+        <div className='row justify-content-center my-4'>
+            <QR style={{width: '200px', height: '200px'  }} className='align-self-center' value={this.state.qrcodeValue}/>
         </div>
+         <div class='row'>
+         <button className='btn btn-primary my-4 mx-auto' style={{backgroundColor: 'rgb(52, 68, 91)',  borderColor: '#4e5d71'}}  onClick={this.props.onHide} >Cancel</button>
+         </div>
+         </div>
+
+
+
+
+
     }
       </div>
     );

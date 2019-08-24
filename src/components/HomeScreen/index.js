@@ -10,27 +10,28 @@ import TokenHeader from './tokenHeader';
 import Modal from "react-bootstrap/es/Modal";
 import ReceiveToken from '../ReceiveToken';
 import ApproveAddress from '../../lib/ApproveAddress';
-
-
+import SendToken from '../SendToken';
 
 const chains = ['origin', 'aux'];
 class Homescreen extends Component {
   constructor(props) {
     super(props);
-    this.state = {balance: [], showReceiveModal: false, showSendModal: false};
+    this.state = {
+      balance: [],
+      showReceiveModal: false,
+      showSendModal: false,
+      currentSelectedSend: null   ,
+      r: Date.now()
+    };
+    this.getBalance();
   }
 
-    componentDidMount(){
-        this.getBalance();
 
-    }
-
-    getBalance(){
-        this.checkForBurnerKey().then(res=>{
-          console.log("Getting Balance");
-            this.balances();
-        });
-    }
+  getBalance() {
+    this.checkForBurnerKey().then(res => {
+      this.balances();
+    });
+  }
 
     checkForBurnerKey() {
         return new Promise(async (resolve, reject)=>{
@@ -101,65 +102,88 @@ class Homescreen extends Component {
         });
       }
 
-        getTokenInfo (tokenName) {
-          let tokenInfo = [];
-          chains.map(async (chainKind, id)=> {
-
-              let getBalance = new GetBalance({address: this.originBurnerKey.address, chainKind, tokenName });
-
-              let balance = await getBalance.perform();
-              tokenInfo.push({chainKind, balance: '1234'});
-              // this.setState({balance: [...this.state.balance, ...balance]})
-
+  getTokenInfo(tokenName) {
+    let tokenInfoPromises = [];
+    for( let cnt = 0 ; cnt< chains.length ; cnt++){
+        let chainKind =  chains[cnt],
+            getBalance = new GetBalance({
+            address: this.originBurnerKey.address,
+            chainKind,
+            tokenName
           });
-            this.setState({
-                balance: [...this.state.balance, ...[{tokenName, tokenInfo}]],
-            });
-      }
+        tokenInfoPromises.push(getBalance.perform());
+    }
+    return tokenInfoPromises;
+  }
 
   balances() {
     let tokens = coreConstants.erc20Tokens;
-    tokens.map((token, index) => {
-      this.getTokenInfo(token);
-    });
+
+    for( let cnt = 0 ; cnt< tokens.length ; cnt++){
+        let newBalancesPromises = this.getTokenInfo( tokens[cnt]);
+        Promise.all( newBalancesPromises ).then( (res)=> {
+            let balance = [];
+            let tokenKey =  tokens[cnt];
+            let data = {tokenInfo : [], tokenName:tokenKey };
+            for(let cnt = 0 ;  cnt < res.length ; cnt++ ){
+                 data.tokenInfo.push({...res[cnt]['data'], ...{tokenKind: chains[cnt]}  });
+                 balance.push( data );
+            }
+            this.setState({ balance:  [...this.state.balance, ...balance]});
+        } );
+
+        console.log(this.state.balance, 'this.state.balance');
+    }
   }
 
-  showChainBalances(tokenInfo){
-      return tokenInfo.map((element)=>{
-          console.log(element, '================');
-          return <div className='row' style={{'borderBottom': '1px solid rgba(0,0,0,.125)', padding: '10px'}}>
-              <div className='col-6 ' style={{textAlign: 'left'}}>
-                  {element.chainKind}
-                  </div>
-                  <div className='col-6' style={{textAlign: 'right'}}>
-                  {element.balance}
-                  </div>
+  showChainBalances(tokenInfo) {
+    return tokenInfo.map((element,i) => {
+      return (
+        <div
+          key={i}
+          className="row"
+          style={{borderBottom: '1px solid rgba(0,0,0,.125)', padding: '10px'}}>
+          <div className="col-6 " style={{textAlign: 'left'}}>
+            {element.chainKind}
           </div>
-      })
-
+          <div className="col-6" style={{textAlign: 'right'}}>
+            {element.balance}
+          </div>
+        </div>
+      );
+    });
   }
 
   showBalanceList() {
     let balanceList = this.state.balance;
+    if(!balanceList || balanceList.length < 1) return;
     return balanceList.map((element, i) => {
       let totalBalance = 0;
       for (var i = 0; i < element.tokenInfo.length; i++) {
         totalBalance += parseInt(element.tokenInfo[i].balance);
       }
+    //  console.log(totalBalance, 'totalBalance');
       return (
         <Collapsible
+          key = {i}
           trigger={
             <TokenHeader
               tokenName={element.tokenName}
               totalBalance={totalBalance}
+              tokenInfo={element.tokenInfo}
+              showSend={this.showSendModalHandler}
             />
-
           }
-          style={{width:'100%'}}>
-          <div style={{width: '100%'  }} >
-            <div style={{backgroundColor: '#fff', borderBottomLeftRadius: '8px', borderBottomRightRadius:'8px'}} >
-                {this.showChainBalances(element.tokenInfo)}
-                </div>
+          style={{width: '100%'}}>
+          <div style={{width: '100%'}}>
+            <div
+              style={{
+                backgroundColor: '#fff',
+                borderBottomLeftRadius: '8px',
+                borderBottomRightRadius: '8px',
+              }}>
+              {this.showChainBalances(element.tokenInfo)}
+            </div>
           </div>
         </Collapsible>
       );
@@ -167,40 +191,80 @@ class Homescreen extends Component {
   }
 
   headerText() {
-    return (<div className="row mt-3" style={{ backgroundColor:'rgb(52, 68, 91)', borderRadius: '6px' }}>
-      <div className="col-3">
-        <div style={{fontWeight: 'bolder', height: '60px', color: 'white', paddingRight: '20px', paddingTop: '20px'}}>
-           Tokens
-        </div>
-      </div>
-      <div className="col-6" style={{textAlign: 'right'}}>
-        <div style={{fontWeight: 'bolder', height: '60px', color: 'white', paddingRight: '20px', paddingTop: '20px'}}>
-          Action
-        </div>
-      </div>
-      <div className="col-3" style={{textAlign: 'right'}}>
-        <div style={{fontWeight: 'bolder', height: '60px', color: 'white', paddingRight: '20px', paddingTop: '20px'}}>
-          Balance
-        </div>
-      </div>
 
-    </div>)
+    return (
+      <div
+        class="row mt-3"
+        style={{backgroundColor: 'rgb(52, 68, 91)', borderRadius: '6px'}}>
+        <div class="col-3">
+          <div
+            style={{
+              fontWeight: 'bolder',
+              height: '60px',
+              color: 'white',
+              paddingRight: '20px',
+              paddingTop: '20px',
+            }}>
+            Tokens
+          </div>
+        </div>
+        <div class="col-6" style={{textAlign: 'right'}}>
+          <div
+            style={{
+              fontWeight: 'bolder',
+              height: '60px',
+              color: 'white',
+              paddingRight: '20px',
+              paddingTop: '20px',
+            }}>
+            Action
+          </div>
+        </div>
+        <div class="col-3" style={{textAlign: 'right'}}>
+          <div
+            style={{
+              fontWeight: 'bolder',
+              height: '60px',
+              color: 'white',
+              paddingRight: '20px',
+              paddingTop: '20px',
+            }}>
+            Balance
+          </div>
+        </div>
+      </div>
+    );
   }
 
-  showReceiveModalHandler =() => {
-      this.setState({
-        showReceiveModal: true
-      });
-
-  }
+  showReceiveModalHandler = () => {
+    this.setState({
+      showReceiveModal: true,
+    });
+  };
 
   closeReceiveModal = () => {
     this.setState({
-        showReceiveModal: false
-      });
-  }
+      showReceiveModal: false,
+    });
+  };
+
+  showSendModalHandler = (tokenName, balance, tokenInfo) => {
+    this.setState({
+      currentSelectedSend: {tokenName, balance, tokenInfo},
+      showSendModal: true
+    });
+
+  };
+
+  closeSendToken = () => {
+    this.setState({
+      showSendModal: false,
+      currentSelectedSend: null,
+    });
+  };
 
   render() {
+    console.log(this.state.balance, 'this.state.balance');
     return (
       <div className="container" style={style.homeContainer}>
         <div className="row align-items-center" style={style.header}>
@@ -208,17 +272,28 @@ class Homescreen extends Component {
             L-Swap
           </div>
         </div>
-        <div className='m-3'>
-        {this.headerText()}
-        <div id="accordion">{this.showBalanceList()}</div>
-        <button className='btn btn-primary mt-4' style={{backgroundColor: 'rgb(52, 68, 91)',  borderColor: '#4e5d71'}}  onClick={this.showReceiveModalHandler} >Receive</button>
+        <div className="m-3">
+          {this.headerText()}
+          <div id="accordion">{this.showBalanceList()}</div>
+          <button
+            className="btn btn-primary mt-4"
+            style={{backgroundColor: 'rgb(52, 68, 91)', borderColor: '#4e5d71'}}
+            onClick={this.showReceiveModalHandler}>
+            Receive
+          </button>
         </div>
-        <Modal show={this.state.showReceiveModal}
-            onHide={this.closeReceiveModal}
-            title='Receive'>
-                 <ReceiveToken />
-            </Modal>
-
+        <Modal
+          show={this.state.showReceiveModal}
+          onHide={this.closeReceiveModal}
+          title="Receive">
+          <ReceiveToken onHide={this.closeReceiveModal} />
+        </Modal>
+        <Modal
+          show={this.state.showSendModal}
+          onHide={this.closeSendToken}
+          title="Receive">
+          <SendToken onHide={this.closeSendToken}  currentSelectedSend={this.state.currentSelectedSend}  />
+        </Modal>
       </div>
     );
   }
