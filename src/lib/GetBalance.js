@@ -61,7 +61,7 @@ class GetBalance {
         oThis.balance = balance;
       });
     } else {
-      const erc20TokenContractObj = await oThis.web3Instance.eth.Contract(oThis.erc20TokenAbi, oThis.contractAddress);
+      const erc20TokenContractObj = await new oThis.web3Instance.eth.Contract(oThis.erc20TokenAbi, oThis.contractAddress);
 
       erc20TokenContractObj
         .methods

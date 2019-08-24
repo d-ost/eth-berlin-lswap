@@ -9,7 +9,6 @@ import Collapsible from 'react-collapsible';
 import TokenHeader from './tokenHeader';
 import Modal from "react-bootstrap/es/Modal";
 import ReceiveToken from '../ReceiveToken';
-import OriginTokenToTokenTransfer from '../../lib/OriginTokenToTokenTransfer';
 import ApproveAddress from '../../lib/ApproveAddress';
 
 
