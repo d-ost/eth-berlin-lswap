@@ -1,3 +1,0 @@
-export ENVIRONMENT='development'
-export ORIGIN_WS_PROVIDER='ws://34.244.36.178:50005'
-export AUX_WS_PROVIDER='ws://34.247.83.108:51405'

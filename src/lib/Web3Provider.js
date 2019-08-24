@@ -6,12 +6,12 @@ class Web3Provider {
 
   constructor(wsProvider) {
     const oThis = this;
-
+    console.log(wsProvider, 'params wsProvider');
 
     oThis.wsProvider = wsProvider;
   }
 
-  get web3WsProvider() {
+  async web3WsProvider() {
     const oThis = this;
 
     var web3 = web3Clients[oThis.wsProvider];

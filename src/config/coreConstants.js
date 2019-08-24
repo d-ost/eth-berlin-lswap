@@ -12,15 +12,15 @@ class CoreConstants {
   }
 
   get ENVIRONMENT() {
-    return process.env.ENVIRONMENT;
+    return "development";
   }
 
   get ORIGIN_WS_PROVIDER() {
-    return process.env.ORIGIN_WS_PROVIDER;
+    return "ws://34.244.36.178:50005";
   }
 
   get AUX_WS_PROVIDER() {
-    return process.env.AUX_WS_PROVIDER;
+    return 'ws://34.247.83.108:51405';
   }
 
   get originChainId() {
@@ -37,6 +37,10 @@ class CoreConstants {
 
   get wethTokenName() {
     return 'WETH'
+  }
+
+  get relayerAddress() {
+    return '0xd426b22f3960d01189a3D548B45A7202489Ff4De'
   }
 
   get erc20Tokens() {

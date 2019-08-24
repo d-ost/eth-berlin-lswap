@@ -16,11 +16,9 @@ const chains = ['origin', 'aux'];
     }
 
     componentDidMount(){
-        console.log(' i m here')
         this.getBalance();
 
     }
-
 
     getBalance(){
         this.checkForBurnerKey().then(res=>{
@@ -29,49 +27,40 @@ const chains = ['origin', 'aux'];
 
     }
 
-
-    checkForBurnerKey() {        
+    checkForBurnerKey() {
         return new Promise(async (resolve, reject)=>{
             this.originBurnerKey = await ls.getItem(
                 coreConstants.ORIGIN_BURNER_KEY,
               );
               if (this.originBurnerKey) {
+                this.originBurnerKey = JSON.parse(this.originBurnerKey);
                 resolve(this.originBurnerKey)
               } else {
               //   call to create one
-                let generateAddress = new GenerateAddress()
-                this.originBurnerKey = await generateAddress.perform;
+                let generateAddress = new GenerateAddress();
+                 let resp = await generateAddress.perform;
+                this.originBurnerKey = resp.data;
                 ls.saveItem(
                   coreConstants.ORIGIN_BURNER_KEY,
-                  this.originBurnerKey.data,
+                  this.originBurnerKey,
                 );
                 resolve(this.originBurnerKey)
-
               }
-
-
         });
-
       }
 
         getTokenInfo (tokenName) {
-            console.log(tokenName, 'tokenname');
           chains.map(async (chainKind, id)=> {
-            console.log(tokenName, 'tokenname 1212');
-              console.log(this.originBurnerKey);
-              let getBalance = new GetBalance({address: JSON.parse(this.originBurnerKey).address, chainKind, tokenName })
-              console.log(this.originBurnerKey, 'getBalancegetBalancegetBalance');
+              let getBalance = new GetBalance({address: this.originBurnerKey.address, chainKind, tokenName });
 
-              //let balance = await getBalance.perform();
-              console.log( 'i mjnvjenvjernvjenvjen');
-            //   this.setState({balance: [...this.state.balance, ...balance]})
+              let balance = await getBalance.perform();
+              // this.setState({balance: [...this.state.balance, ...balance]})
 
           });
       }
 
         balances(){
           let tokens = coreConstants.erc20Tokens;
-          console.log(coreConstants.erc20Tokens, 'coreConstants');
         tokens.map((token, index) => {
                 this.getTokenInfo(token);
           });
