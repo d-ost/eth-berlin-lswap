@@ -131,18 +131,18 @@ class Homescreen extends Component {
   }
 
   headerText() {
-    return (<div class="row mt-3" style={{ backgroundColor:'rgb(52, 68, 91)', borderRadius: '6px' }}>
-      <div class="col-3">
+    return (<div className="row mt-3" style={{ backgroundColor:'rgb(52, 68, 91)', borderRadius: '6px' }}>
+      <div className="col-3">
         <div style={{fontWeight: 'bolder', height: '60px', color: 'white', paddingRight: '20px', paddingTop: '20px'}}>
            Tokens
         </div>
       </div>
-      <div class="col-6" style={{textAlign: 'right'}}>
+      <div className="col-6" style={{textAlign: 'right'}}>
         <div style={{fontWeight: 'bolder', height: '60px', color: 'white', paddingRight: '20px', paddingTop: '20px'}}>
           Action
         </div>
       </div>
-      <div class="col-3" style={{textAlign: 'right'}}>
+      <div className="col-3" style={{textAlign: 'right'}}>
         <div style={{fontWeight: 'bolder', height: '60px', color: 'white', paddingRight: '20px', paddingTop: '20px'}}>
           Balance
         </div>

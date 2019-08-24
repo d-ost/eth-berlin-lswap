@@ -1,7 +1,6 @@
 export default {
     homeContainer: {
-        
-        width: '800px',
+        marignTop:'50px',
         height: '100%',
         backgroundColor:'#e7f6f7'
     },
