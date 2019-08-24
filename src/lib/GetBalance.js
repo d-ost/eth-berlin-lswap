@@ -56,20 +56,25 @@ class GetBalance {
   async _fetchBalance() {
     const oThis = this;
 
-    if (oThis.isBaseCurrency) {
-      oThis.web3Instance.eth.getBalance(oThis.address).then(function (balance) {
-        oThis.balance = balance;
-      });
-    } else {
-      const erc20TokenContractObj = await new oThis.web3Instance.eth.Contract(oThis.erc20TokenAbi, oThis.contractAddress);
+    return new Promise((async (onResolve) => {
 
-      erc20TokenContractObj
-        .methods
-        .balanceOf(oThis.address)
-        .call({}).then(function (balance) {
-        oThis.balance = balance.toString(10);
-      });
-    }
+      if (oThis.isBaseCurrency) {
+        oThis.web3Instance.eth.getBalance(oThis.address).then(function (balance) {
+          oThis.balance = balance;
+        });
+      } else {
+        const erc20TokenContractObj = await new oThis.web3Instance.eth.Contract(oThis.erc20TokenAbi, oThis.contractAddress);
+
+        erc20TokenContractObj
+          .methods
+          .balanceOf(oThis.address)
+          .call({}).then(function (balance) {
+          oThis.balance = balance.toString(10);
+          onResolve();
+        });
+      }
+
+    }));
   }
 }
 
