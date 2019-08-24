@@ -13,7 +13,7 @@ class ReceiveToken extends Component {
   }
 
   async componentDidMount(){
-    this.AuxBurnerKey =  await ls.getItem(coreConstants.AUX_BURNER_KEY);
+    this.AuxBurnerKey =  await ls.getItem(coreConstants.AUX_OWNER_KEY);
   }
 
   selectCurrency = eventKey => {

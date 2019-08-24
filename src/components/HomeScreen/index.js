@@ -9,7 +9,6 @@ import Collapsible from 'react-collapsible';
 import TokenHeader from './tokenHeader';
 import Modal from "react-bootstrap/es/Modal";
 import ReceiveToken from '../ReceiveToken';
-import OriginTokenToTokenTransfer from '../../lib/OriginTokenToTokenTransfer';
 import ApproveAddress from '../../lib/ApproveAddress';
 
 
@@ -42,7 +41,8 @@ class Homescreen extends Component {
                 this.originBurnerKey = JSON.parse(this.originBurnerKey);
                 resolve(this.originBurnerKey)
               } else {
-                this.originBurnerKey = JSON.parse(this.originBurnerKey);
+
+                // this.originBurnerKey = JSON.parse(this.originBurnerKey);
                 console.log("Burner Key Creation Started");
 
                 let generateAddress = new GenerateAddress();

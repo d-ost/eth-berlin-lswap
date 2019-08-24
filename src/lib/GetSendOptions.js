@@ -4,6 +4,8 @@ class GetSendOptions {
 
   constructor(params) {
     const oThis = this;
+    console.log(params, 'params GetSendOptions');
+
 
     oThis.sendTokenName = params.sendTokenName;
     oThis.sendTokenAmount = params.sendTokenAmount;

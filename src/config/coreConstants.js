@@ -67,19 +67,19 @@ class CoreConstants {
     }
   }
 
-  get originDefaultgasPrice(){
+  get originDefaultgasPrice() {
     return '0x3B9ACA00' //1 gw
   }
 
-  get originDefaultgas(){
+  get originDefaultgas() {
     return '600000'
   }
 
-  get auxDefaultgasPrice(){
+  get auxDefaultgasPrice() {
     return '0x3B9ACA00' //1 gw
   }
 
-  get auxDefaultgas(){
+  get auxDefaultgas() {
     return '600000'
   }
 
@@ -126,12 +126,16 @@ class CoreConstants {
     return 'tokenUniSwapStep';
   }
 
-    get AUX_BURNER_KEY(){
-        return 'aux-burner-key'
+  get AUX_OWNER_KEY() {
+    return 'aux-owner-key'
+  }
+
+  get AUX_BURNER_KEY() {
+    return 'aux-burner-key'
   }
 
 
-    get layerSwapStep() {
+  get layerSwapStep() {
     return 'layerSwapStep';
   }
 
