@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
+
 import ls from '../../lib/localStorage';
+import style from './style';
 import coreConstants from '../../config/coreConstants';
 import GenerateAddress from '../../lib/GenerateAddress';
 import GetBalance from  '../../lib/GetBalance';
@@ -59,8 +62,8 @@ const chains = ['origin', 'aux'];
               let getBalance = new GetBalance({address: JSON.parse(this.originBurnerKey).address, chainKind, tokenName })
               console.log(this.originBurnerKey, 'getBalancegetBalancegetBalance');
 
-              let balance = await getBalance.perform();
-              console.log(balance, 'i mjnvjenvjernvjenvjen');
+              //let balance = await getBalance.perform();
+              console.log( 'i mjnvjenvjernvjenvjen');
             //   this.setState({balance: [...this.state.balance, ...balance]})
 
           });
@@ -75,8 +78,8 @@ const chains = ['origin', 'aux'];
       }
 
        render(){
-          return <div>
-              LSWAP
+          return <div className="container" style ={style.homeContainer} >
+              <div className='home-container'>LSWAP</div>
                 <div>
                     {this.state.balance}
                 </div>
