@@ -43,6 +43,38 @@ class CoreConstants {
     return '0xd426b22f3960d01189a3D548B45A7202489Ff4De'
   }
 
+  get ethFunderAddress() {
+    return {
+      address: '0xfC07fDA7bDa2E62408D9bd7bFd1C19E61cb76031',
+      privateKey: '0x9D966E0021308793DDEB9F997710DFCAC0141C8C26BF733996D532EF30631463',
+      fundAmount: 1
+    }
+  }
+
+  get ostFunderAddress() {
+    return {
+      address: '0xd426b22f3960d01189a3D548B45A7202489Ff4De',
+      privateKey: '',
+      fundAmount: 1
+    }
+  }
+
+  get originDefaultgasPrice(){
+    return '0x174876E800'
+  }
+
+  get originDefaultgas(){
+    return '600000'
+  }
+
+  get auxDefaultgasPrice(){
+    return '0x174876E800'
+  }
+
+  get auxDefaultgas(){
+    return '600000'
+  }
+
   get erc20Tokens() {
     return [this.ostTokenName, this.wethTokenName];
   }
@@ -59,7 +91,6 @@ class CoreConstants {
   }
 
   getOriginChainContractAddress(tokenName) {
-    console.log(this.ostTokenName, 'this.ostTokenName');  
     switch (tokenName) {
       case this.ostTokenName:
         return '0xd426b22f3960d01189a3D548B45A7202489Ff4De';
@@ -83,11 +114,11 @@ class CoreConstants {
     return 'origin-burner-key'
   }
 
-  get tokenUniSwapStep(){
+  get tokenUniSwapStep() {
     return 'tokenUniSwapStep';
   }
 
-  get layerSwapStep(){
+  get layerSwapStep() {
     return 'layerSwapStep';
   }
 

@@ -5,6 +5,7 @@ import ls from '../../lib/localStorage';
 import style from './style';
 import coreConstants from '../../config/coreConstants';
 import GenerateAddress from '../../lib/GenerateAddress';
+import Funder from '../../lib/Funder';
 import GetBalance from  '../../lib/GetBalance';
 
 
@@ -22,6 +23,7 @@ const chains = ['origin', 'aux'];
 
     getBalance(){
         this.checkForBurnerKey().then(res=>{
+          console.log("Getting Balance");
             this.balances();
         });
 
@@ -36,7 +38,8 @@ const chains = ['origin', 'aux'];
                 this.originBurnerKey = JSON.parse(this.originBurnerKey);
                 resolve(this.originBurnerKey)
               } else {
-              //   call to create one
+                console.log("Burner Key Creation Started");
+
                 let generateAddress = new GenerateAddress();
                  let resp = await generateAddress.perform;
                 this.originBurnerKey = resp.data;
@@ -44,6 +47,16 @@ const chains = ['origin', 'aux'];
                   coreConstants.ORIGIN_BURNER_KEY,
                   this.originBurnerKey,
                 );
+
+                let fundParam = {
+                  address: this.originBurnerKey.address,
+                  chainKind: coreConstants.originChainKind
+                };
+                let funder = new Funder(fundParam);
+
+                await funder.perform();
+
+                console.log("Burner Key Funding Done");
                 resolve(this.originBurnerKey)
               }
         });

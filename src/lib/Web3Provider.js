@@ -20,6 +20,7 @@ class Web3Provider {
     }
 
     var web3 = new Web3(oThis.wsProvider);
+    web3.transactionConfirmationBlocks = 2;
     web3Clients[oThis.wsProvider] = web3;
 
     return web3;
