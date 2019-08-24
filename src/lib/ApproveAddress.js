@@ -57,14 +57,13 @@ class ApproveAddress {
     return new Promise((async (onResolve) => {
 
       const account = oThis.web3Instance.eth.accounts.privateKeyToAccount(oThis.privateKey);
-      console.log('address ', account.address);
 
       oThis.web3Instance.eth.accounts.wallet.add(account);
 
       const erc20TokenContractObj = oThis.web3Instance.eth.Contract(CoreAbis.genericErc20, oThis.contractAddress);
 
       erc20TokenContractObj.methods
-        .approve(oThis.approveAddress, 1000000000000000000000000000)
+        .approve(oThis.approveAddress, '1000000000000000000000')
         .send({
           from: oThis.senderAddress,
           gasPrice: oThis.defaultgasPrice,
