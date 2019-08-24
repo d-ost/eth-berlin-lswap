@@ -1,4 +1,5 @@
 import GenericERC20 from '../contracts/abi/GenericERC20';
+import GenericUniSwap from '../contracts/abi/GenericUniSwap';
 
 
 const nameToAbiMap = {};
