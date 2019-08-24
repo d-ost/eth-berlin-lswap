@@ -33,7 +33,7 @@ class ReceiveToken extends Component {
     generateQRCode = () => {
       console.log('generateQRCode');
       ls.getItem(coreConstants.ORIGIN_BURNER_KEY).then((originBurnerKey)=>{
-      let qrcodeValue = {
+      let qrcodeValue =  {
         origin_address: JSON.parse(originBurnerKey).address,
         preferred_token: this.state.currency,
         allow_aux: this.state.chain == 'AUX' ? 1 : 0      
@@ -46,10 +46,6 @@ class ReceiveToken extends Component {
       console.log(originBurnerKey, 'originBurnerKey');
       });
       
-
-      
-
-
   }
 
   render() {
