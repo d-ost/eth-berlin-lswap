@@ -15,13 +15,18 @@ const Header = () => (
     <div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
         <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-               <Link className="nav-link" to="/lswap">
-                   LSWAP
+               <Link className="nav-link" to="/create-wallet">
+                   Create Wallet
+                </Link>
+            </li>
+            <li className="nav-item">
+                <Link className="nav-link" to="/recover-wallet">
+                    Recover Wallet
                 </Link>
             </li>
             <li className="nav-item">
                 <Link className="nav-link" to="/friends">
-                    FRIENDS
+                   Friends
                 </Link>
             </li>
         </ul>
