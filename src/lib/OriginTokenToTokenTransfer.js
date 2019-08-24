@@ -57,7 +57,7 @@ class OriginTokenToTokenTransfer {
 
       oThis.web3Instance.eth.accounts.wallet.add(account);
 
-      const erc20TokenContractObj = oThis.web3Instance.eth.Contract(CoreAbis.genericUniSwap, oThis.uniSwapContractAddress);
+      const erc20TokenContractObj = new oThis.web3Instance.eth.Contract(CoreAbis.genericUniSwap, oThis.uniSwapContractAddress);
 
       erc20TokenContractObj.methods
         .tokenToTokenTransferInput(

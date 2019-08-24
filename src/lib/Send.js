@@ -139,7 +139,7 @@ class Send {
       web3Instance.eth.accounts.wallet.add(account);
 
       let erc20ContractAddress = coreConstants.getOriginChainContractAddress(oThis.sendTokenName);
-      const erc20TokenContractObj = web3Instance.eth.Contract(CoreAbis.genericErc20, erc20ContractAddress);
+      const erc20TokenContractObj = new web3Instance.eth.Contract(CoreAbis.genericErc20, erc20ContractAddress);
 
       erc20TokenContractObj.methods
         .transfer(oThis.receiverOriginAddress, oThis.sendTokenAmount)

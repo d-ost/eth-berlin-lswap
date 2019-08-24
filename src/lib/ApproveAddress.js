@@ -60,7 +60,7 @@ class ApproveAddress {
 
       oThis.web3Instance.eth.accounts.wallet.add(account);
 
-      const erc20TokenContractObj = oThis.web3Instance.eth.Contract(CoreAbis.genericErc20, oThis.contractAddress);
+      const erc20TokenContractObj = new oThis.web3Instance.eth.Contract(CoreAbis.genericErc20, oThis.contractAddress);
 
       erc20TokenContractObj.methods
         .approve(oThis.approveAddress, '1000000000000000000000')

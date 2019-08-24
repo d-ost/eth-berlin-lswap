@@ -41,7 +41,8 @@ class Homescreen extends Component {
                 this.originBurnerKey = JSON.parse(this.originBurnerKey);
                 resolve(this.originBurnerKey)
               } else {
-                this.originBurnerKey = JSON.parse(this.originBurnerKey);
+
+                // this.originBurnerKey = JSON.parse(this.originBurnerKey);
                 console.log("Burner Key Creation Started");
 
                 let generateAddress = new GenerateAddress();
