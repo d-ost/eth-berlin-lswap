@@ -43,6 +43,10 @@ class CoreConstants {
     return '0xd426b22f3960d01189a3D548B45A7202489Ff4De'
   }
 
+  get originUniSwapContractAddress() {
+    return '0xd426b22f3960d01189a3D548B45A7202489Ff4De'
+  }
+
   get ethFunderAddress() {
     return {
       address: '0xfC07fDA7bDa2E62408D9bd7bFd1C19E61cb76031',

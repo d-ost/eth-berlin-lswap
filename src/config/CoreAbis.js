@@ -17,6 +17,10 @@ class CoreAbis {
     return GenericERC20;
   }
 
+  static get genericUniSwap() {
+    return GenericUniSwap;
+  }
+
 }
 
 export default CoreAbis;
