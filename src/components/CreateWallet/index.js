@@ -97,7 +97,7 @@ class CreateWallet extends Component {
 
     ls.saveItem( localStorageKey , {address : account.address , privateKey : account.privateKey}  );
   
-    this.setState({qrcodeValue: JSON.stringify( {"address": account.address}) ,  showQR: true});
+    this.setState({qrcodeValue: JSON.stringify( {"address": account.address}) ,  showQR: true , noUser: false});
 
   }
 
@@ -200,13 +200,13 @@ class CreateWallet extends Component {
 
         { !this.state.noUser && (
           <React.Fragment>
-            <div className="col-12" style={{marginTop: "30px"}}>
+            <div className="col-6" style={{marginTop: "30px" , textAlign: "right"}}>
                 <button className="btn btn-outline-secondary"
                         onClick={this.onShowQR}
                         style={{width: "260px"}}> SHOW QR </button>
              </div>  
 
-            <div className="col-12"  style={{marginTop: "30px"}}>
+            <div className="col-6"  style={{marginTop: "30px", textAlign: "left"}}>
                 <button className="btn btn-outline-secondary"
                         onClick={this.onDeploy}
                         style={{width: "260px"}}> {this.state.deployBtnText} </button>   
