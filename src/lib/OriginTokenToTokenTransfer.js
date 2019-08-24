@@ -15,7 +15,8 @@ class OriginTokenToTokenTransfer {
     oThis.swapTokenName = params.swapTokenName;
     oThis.toAddress = params.toAddress;
 
-    oThis.swapData = {};
+    oThis.swapErc20ContractAddress = null;
+    oThis.uniSwapContractAddress = null;
   }
 
   async perform() {
@@ -28,30 +29,22 @@ class OriginTokenToTokenTransfer {
     return {success: true};
   }
 
-
   async _setParams() {
     const oThis = this;
     let web3Class = null;
 
-    let swapErc20ContractAddress = '';
 
     web3Class = new Web3Provider(coreConstants.ORIGIN_WS_PROVIDER);
-    swapErc20ContractAddress = coreConstants.getOriginChainContractAddress(oThis.swapTokenName);
+    oThis.swapErc20ContractAddress = coreConstants.getOriginChainContractAddress(oThis.swapTokenName);
 
     oThis.defaultgasPrice = coreConstants.originDefaultgasPrice;
     oThis.defaultgas = coreConstants.originDefaultgas;
+    if (oThis.tokenName == coreConstants.ostTokenName) {
+      oThis.uniSwapContractAddress = coreConstants.originOstUniSwapContractAddress;
+    } else {
+      oThis.uniSwapContractAddress = coreConstants.originWethUniSwapContractAddress;
+    }
 
-    oThis.swapData = [
-      oThis.amount,
-      1,
-      1,
-      2 * Math.floor(Date.now()),
-      oThis.toAddress,
-      swapErc20ContractAddress
-    ];
-
-
-    oThis.uniSwapContractAddress = CoreAbis.originUniSwapContractAddress;
     oThis.web3Instance = await web3Class.web3WsProvider();
   }
 
@@ -61,14 +54,20 @@ class OriginTokenToTokenTransfer {
     return new Promise((async (onResolve) => {
 
       const account = oThis.web3Instance.eth.accounts.privateKeyToAccount(oThis.privateKey);
-      console.log('address ', account.address);
 
       oThis.web3Instance.eth.accounts.wallet.add(account);
 
       const erc20TokenContractObj = oThis.web3Instance.eth.Contract(CoreAbis.genericUniSwap, oThis.uniSwapContractAddress);
 
       erc20TokenContractObj.methods
-        .tokenToTokenTransferInput(oThis.swapData)
+        .tokenToTokenTransferInput(
+          oThis.amount,
+          1,
+          1,
+          Math.floor(1.1 * Date.now()),
+          oThis.toAddress,
+          oThis.swapErc20ContractAddress
+        )
         .send({
           from: oThis.senderAddress,
           gasPrice: oThis.defaultgasPrice,

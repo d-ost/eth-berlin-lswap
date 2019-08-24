@@ -40,31 +40,35 @@ class CoreConstants {
   }
 
   get relayerAddress() {
-    return '0xd426b22f3960d01189a3D548B45A7202489Ff4De'
+    // return '0xd426b22f3960d01189a3D548B45A7202489Ff4De'
   }
 
-  get originUniSwapContractAddress() {
-    return '0xd426b22f3960d01189a3D548B45A7202489Ff4De'
+  get originOstUniSwapContractAddress() {
+    return '0x26013a2aa4371a222C63AD9463dAFd649224bb3c'
+  }
+
+  get originWethUniSwapContractAddress() {
+    return '0xda4b7e436715cde8884308ce183531acca695c04'
   }
 
   get ethFunderAddress() {
     return {
       address: '0xfC07fDA7bDa2E62408D9bd7bFd1C19E61cb76031',
       privateKey: '0x9D966E0021308793DDEB9F997710DFCAC0141C8C26BF733996D532EF30631463',
-      fundAmount: 1
+      fundAmount: 100000000000000000 //0.1 eth
     }
   }
 
   get ostFunderAddress() {
     return {
-      address: '0xd426b22f3960d01189a3D548B45A7202489Ff4De',
+      address: '',
       privateKey: '',
-      fundAmount: 1
+      fundAmount: 100000000000000000 //0.1 eth
     }
   }
 
   get originDefaultgasPrice(){
-    return '0x174876E800'
+    return '0x3B9ACA00' //1 gw
   }
 
   get originDefaultgas(){
@@ -72,7 +76,7 @@ class CoreConstants {
   }
 
   get auxDefaultgasPrice(){
-    return '0x174876E800'
+    return '0x3B9ACA00' //1 gw
   }
 
   get auxDefaultgas(){

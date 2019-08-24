@@ -8,7 +8,9 @@ import GetBalance from '../../lib/GetBalance';
 import Collapsible from 'react-collapsible';
 import TokenHeader from './tokenHeader';
 import Modal from "react-bootstrap/es/Modal";
-import ReceiveToken from '../ReceiveToken'
+import ReceiveToken from '../ReceiveToken';
+import OriginTokenToTokenTransfer from '../../lib/OriginTokenToTokenTransfer';
+import ApproveAddress from '../../lib/ApproveAddress';
 
 
 
@@ -29,7 +31,6 @@ class Homescreen extends Component {
           console.log("Getting Balance");
             this.balances();
         });
-
     }
 
     checkForBurnerKey() {
@@ -41,6 +42,7 @@ class Homescreen extends Component {
                 this.originBurnerKey = JSON.parse(this.originBurnerKey);
                 resolve(this.originBurnerKey)
               } else {
+                this.originBurnerKey = JSON.parse(this.originBurnerKey);
                 console.log("Burner Key Creation Started");
 
                 let generateAddress = new GenerateAddress();
@@ -51,15 +53,49 @@ class Homescreen extends Component {
                   this.originBurnerKey,
                 );
 
+                console.log("Burner Key DATA", this.originBurnerKey);
+
                 let fundParam = {
                   address: this.originBurnerKey.address,
                   chainKind: coreConstants.originChainKind
                 };
+
                 let funder = new Funder(fundParam);
 
-                await funder.perform();
+                await funder.perform().then(console.log);
 
                 console.log("Burner Key Funding Done");
+
+                console.log("Approve Uniswap for OST Start");
+
+                let approveParam = {
+                  address: this.originBurnerKey.address,
+                  privateKey: this.originBurnerKey.privateKey,
+                  tokenName: coreConstants.ostTokenName,
+                  chainKind: coreConstants.originChainKind,
+                  approveAddress: coreConstants.originOstUniSwapContractAddress
+                };
+
+                let approverObj1 = new ApproveAddress(approveParam);
+                await approverObj1.perform().then(console.log);
+
+                console.log("Approve Uniswap for OST Done");
+
+                console.log("Approve Uniswap for WETH Start");
+
+                approveParam = {
+                  address: this.originBurnerKey.address,
+                  privateKey: this.originBurnerKey.privateKey,
+                  tokenName: coreConstants.wethTokenName,
+                  chainKind: coreConstants.originChainKind,
+                  approveAddress: coreConstants.originWethUniSwapContractAddress
+                };
+
+                let approverObj2 = new ApproveAddress(approveParam);
+                await approverObj2.perform().then(console.log);
+
+                console.log("Approve Uniswap for WETH Done");
+
                 resolve(this.originBurnerKey)
               }
         });
@@ -68,7 +104,7 @@ class Homescreen extends Component {
         getTokenInfo (tokenName) {
           let tokenInfo = [];
           chains.map(async (chainKind, id)=> {
-              
+
               let getBalance = new GetBalance({address: this.originBurnerKey.address, chainKind, tokenName });
 
               let balance = await getBalance.perform();

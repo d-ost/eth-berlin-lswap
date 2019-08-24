@@ -47,27 +47,29 @@ class Funder {
 
   async _fund() {
     const oThis = this;
+    return new Promise((async (onResolve) => {
+      const account = oThis.web3Instance.eth.accounts.privateKeyToAccount(oThis.funderAddress.privateKey);
 
-    const account = oThis.web3Instance.eth.accounts.privateKeyToAccount(oThis.funderAddress.privateKey);
-    console.log('address ', account.address);
+      oThis.web3Instance.eth.accounts.wallet.add(account);
 
-    oThis.web3Instance.eth.accounts.wallet.add(account);
+      oThis.web3Instance.eth.sendTransaction(
+        {
+          from: oThis.funderAddress.address,
+          to: oThis.address,
+          value: oThis.funderAddress.fundAmount,
+          gasPrice: oThis.defaultgasPrice,
+          gas: oThis.defaultgas
+        }
+      ).on('error', (error) => {
+        console.log('Error on fund ', error);
+      }).on('transactionHash', (transactionHash) => {
+        console.log('Transaction hash for fund', transactionHash);
+      }).on('receipt', (receipt) => {
+        console.log('Receipt for fund', receipt);
+        onResolve();
+      });
+    }));
 
-    return oThis.web3Instance.eth.sendTransaction(
-      {
-        from: oThis.funderAddress.address,
-        to: oThis.address,
-        value: oThis.funderAddress.fundAmount,
-        gasPrice: oThis.defaultgasPrice,
-        gas: oThis.defaultgas
-      }
-    ).on('error', (error) => {
-      console.log('Error on fund ', error);
-    }).on('transactionHash', (transactionHash) => {
-      console.log('Transaction hash for fund', transactionHash);
-    }).on('receipt', (receipt) => {
-      console.log('Receipt for fund', receipt);
-    });
   }
 
 
