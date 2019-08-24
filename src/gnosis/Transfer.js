@@ -1,3 +1,4 @@
+import Send from "../lib/Send";
 
 const Web3 = require('web3');
 const Bignumber = require('bignumber.js');
@@ -347,16 +348,4 @@ class Transfer {
   }
 
 }
-
-const params = {
-  web3Endpoint: 'https://mosaicdao.org/aux/1405',
-  // safeAddress: '0xCD0D01dF87A8B13980D9e8Db1B163c9460132184',
-  safeAddress: '0x46991624171789243Eec5D55f68cf59d8123F688',
-  // erc20Address: '0xBB5676d85d28DA039F982C07E4217fB0FDB2c2ef',
-  relayerPrivateKey: '',
-  ownerPrivateKey: '',
-  reciepientAddress: '0x6c98c712546742f0570bdab411256865c29e80fa',
-  transferAmount: '1'
-};
-
-new Transfer(params).perform().then(console.log);
+export default Transfer;

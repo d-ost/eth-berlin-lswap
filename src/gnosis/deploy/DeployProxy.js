@@ -1,3 +1,4 @@
+import Send from "../../lib/Send";
 
 const Web3 = require('web3');
 const OpenST = require('@openst/openst.js');
@@ -249,9 +250,7 @@ class DeployProxy {
 
     await oThis.performApproval();
 
-    return {
-      safeAddress: oThis.safeAddress
-    }
+    return {success: true, data: {safeAddress: oThis.safeAddress}}
 
   }
 
@@ -362,14 +361,4 @@ class DeployProxy {
 
 }
 
-new DeployProxy({
-  web3Endpoint: 'https://mosaicdao.org/aux/1405',
-  masterCopyAddress:'0x5bc7e67Bc0F6400c8bFfd193A9Dff217a2F79294',
-  proxyFactoryAddress: '0xC34B9569193CD401eA0C4C930E64D305BAE3faa3',
-  relayerPrivateKey: '',
-  ownerPrivateKey: '',
-  ownerAddress:'0x5287cA6689ef7a096508610411835Cb100bCc104',
-  erc20ToExchangeAddressMap: {
-    '0xBB5676d85d28DA039F982C07E4217fB0FDB2c2ef': '0x6c4b1e7a3fd9692202fd6b31af9fd44f0b77a6b8'
-  }
-}).perform().then(console.log);
+export default DeployProxy;

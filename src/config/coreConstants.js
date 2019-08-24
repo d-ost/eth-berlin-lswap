@@ -39,16 +39,16 @@ class CoreConstants {
     return 'WETH'
   }
 
-  get relayerAddress() {
-    // return '0xd426b22f3960d01189a3D548B45A7202489Ff4De'
-  }
-
   get originOstUniSwapContractAddress() {
     return '0x26013a2aa4371a222C63AD9463dAFd649224bb3c'
   }
 
   get originWethUniSwapContractAddress() {
     return '0xda4b7e436715cde8884308ce183531acca695c04'
+  }
+
+  get auxWethUniSwapContractAddress() {
+    return '0x6c4b1e7a3fd9692202fd6b31af9fd44f0b77a6b8'
   }
 
   get ethFunderAddress() {
