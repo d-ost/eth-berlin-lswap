@@ -61,6 +61,7 @@ class GetBalance {
       if (oThis.isBaseCurrency) {
         oThis.web3Instance.eth.getBalance(oThis.address).then(function (balance) {
           oThis.balance = balance;
+          onResolve();
         });
       } else {
         const erc20TokenContractObj = await new oThis.web3Instance.eth.Contract(oThis.erc20TokenAbi, oThis.contractAddress);

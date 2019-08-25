@@ -26,12 +26,11 @@
     "react": "16.8.3",
     "rimble-ui": "0.9.6",
     "styled-components": "4.3.2",
-    "react-qr-reader": "2.2.1"
+    "react-qr-reader": "2.2.1",
     "scrypt": "^6.0.3",
     "shamirs-secret-sharing": "^1.0.1",
     "solc": "^0.5.11",
     "solium": "^1.2.4",
-    "styled-components": "4.3.2",
     "truffle": "^5.0.33",
     "web3-utils": "^1.0.0",
     "web3": "1.0.0-beta.37",

@@ -28,7 +28,7 @@ class Homescreen extends Component {
 
 
   getBalance() {
-    this.checkForBurnerKey().then(res => {
+    this.checkForBurnerKey().then(async res => {
       this.balances();
     });
   }
@@ -116,21 +116,23 @@ class Homescreen extends Component {
     return tokenInfoPromises;
   }
 
-  balances() {
+  async balances() {
     let tokens = coreConstants.erc20Tokens;
 
     for( let cnt = 0 ; cnt< tokens.length ; cnt++){
-        let newBalancesPromises = this.getTokenInfo( tokens[cnt]);
-        Promise.all( newBalancesPromises ).then( (res)=> {
+
+        let promises =  this.getTokenInfo( tokens[cnt]);
+        let res = await Promise.all(promises);
+
             let balance = [];
             let tokenKey =  tokens[cnt];
             let data = {tokenInfo : [], tokenName:tokenKey };
-            for(let cnt = 0 ;  cnt < res.length ; cnt++ ){
-                 data.tokenInfo.push({...res[cnt]['data'], ...{tokenKind: chains[cnt]}  });
-                 balance.push( data );
+            for(let cnt = 0 ;  cnt < res.length ; cnt++ ){                
+                 data.tokenInfo.push({...res[cnt]['data'], ...{chainKind: chains[cnt]}  });
+                
             }
+            balance.push( data );
             this.setState({ balance:  [...this.state.balance, ...balance]});
-        } );
 
         console.log(this.state.balance, 'this.state.balance');
     }
@@ -162,7 +164,7 @@ class Homescreen extends Component {
       for (var i = 0; i < element.tokenInfo.length; i++) {
         totalBalance += parseInt(element.tokenInfo[i].balance);
       }
-    //  console.log(totalBalance, 'totalBalance');
+
       return (
         <Collapsible
           key = {i}

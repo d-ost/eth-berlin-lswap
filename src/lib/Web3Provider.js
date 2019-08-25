@@ -6,7 +6,7 @@ class Web3Provider {
 
   constructor(wsProvider) {
     const oThis = this;
-    console.log(wsProvider, 'params wsProvider');
+    // console.log(wsProvider, 'params wsProvider');
 
     oThis.wsProvider = wsProvider;
   }
