@@ -26,10 +26,10 @@ class CreateWallet extends Component {
     super(props);
 
       this.state = {
-        username : null, 
+        username : '', 
         pin: '', 
         confrimPin : '',
-        publicAddress: null,
+        publicAddress: '',
 
         usernameError: false , 
         pinError: false, 
@@ -145,10 +145,12 @@ class CreateWallet extends Component {
               
               <div className="form-group" style={{textAlign: "left"}}>
                 <label>Username</label>
-                <input type="text" className="form-control" id="exampleInputEmail1" 
-                      autoFocus={true}
+                <input type="text" className="form-control" 
+                        style={{backgroundColor: "#fff"}}
+                        autocomplete="off"
+                        autoFocus={true}
                         onChange={this.onUserNameChange}
-                        aria-describedby="emailHelp" placeholder="User name" />
+                        placeholder="Username" />
                 <small id="emailHelp" style={{fontSize: "10px"}} className="form-text text-muted">
                   Please enter username for your wallet, min 5 charcters.</small>
                 {this.state.usernameError && ( <span style={{fontSize: "10px" , color: "red"}}>
@@ -160,6 +162,7 @@ class CreateWallet extends Component {
                 <PinInput 
                     length={6} 
                     initialValue=''
+                    autoFocus={false}
                     focus={false}
                     secret 
                     onChange={(value, index) => { this.onPin( value ) }} 

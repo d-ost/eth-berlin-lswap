@@ -10,7 +10,7 @@ import TokenHeader from './tokenHeader';
 import Modal from "react-bootstrap/es/Modal";
 import ReceiveToken from '../ReceiveToken';
 import ApproveAddress from '../../lib/ApproveAddress';
-import SendToken from '../SendToken';
+// import SendToken from '../SendToken';
 
 const chains = ['origin', 'aux'];
 class Homescreen extends Component {
@@ -294,7 +294,7 @@ class Homescreen extends Component {
           show={this.state.showSendModal}
           onHide={this.closeSendToken}
           title="Receive">
-          <SendToken onHide={this.closeSendToken}  currentSelectedSend={this.state.currentSelectedSend}  />
+          {/* <SendToken onHide={this.closeSendToken}  currentSelectedSend={this.state.currentSelectedSend}  /> */}
         </Modal>
       </div>
     );
