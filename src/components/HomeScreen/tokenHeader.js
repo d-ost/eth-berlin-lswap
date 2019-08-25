@@ -14,9 +14,10 @@ class TokenHeader extends Component {
 
   render() {
     return (
-      <div class="row mt-3" style={{border: '1px solid rgba(0,0,0,.125)', borderRadius: '6px', backgroundColor:'#fff', boxShadow: 'rgba(0, 0, 0, 0.25) 0px 5px 15px'}}>
-        <div class="col-3">
+      <div className="row mt-3" style={{border: '1px solid rgba(0,0,0,.125)', borderRadius: '6px', backgroundColor:'#fff', boxShadow: 'rgba(0, 0, 0, 0.25) 0px 5px 15px'}}>
+        <div className="col-3">
           <div
+            className='font-weight-bold'
             style={{
               
               height: '60px',
@@ -27,7 +28,7 @@ class TokenHeader extends Component {
             {this.props.tokenName}
           </div>
         </div>
-        <div class="col-6" style={{textAlign: 'right'}}>
+        <div className="col-6" style={{textAlign: 'right'}}>
           <div
             style={{              
               height: '60px',
@@ -39,7 +40,7 @@ class TokenHeader extends Component {
         
           </div>
         </div>
-        <div class="col-3" style={{textAlign: 'right'}}>
+        <div className="col-3" style={{textAlign: 'right'}}>
           <div
             style={{              
               height: '60px',

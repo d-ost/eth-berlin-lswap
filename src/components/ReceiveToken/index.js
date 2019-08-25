@@ -8,7 +8,7 @@ import coreConstants from '../../config/coreConstants';
 class ReceiveToken extends Component {
   constructor(props) {
     super(props);
-    this.state = {currency: 'OST', chain: 'ORIGIN', qrcodeValue: ''};
+    this.state = {currency: `${coreConstants.ostTokenName}`, chain: 'ORIGIN', qrcodeValue: ''};
     this.AuxBurnerKey = null;
   }
 
@@ -80,11 +80,12 @@ class ReceiveToken extends Component {
                     id="dropdown-custom-2"
                   />
                   <Dropdown.Menu className="super-colors">
-                    <Dropdown.Item eventKey="OST">OST</Dropdown.Item>
-                    <Dropdown.Item eventKey="WETH">WETH</Dropdown.Item>
+                    <Dropdown.Item eventKey={`${coreConstants.ostTokenName}`}>{`${coreConstants.ostTokenName}`}</Dropdown.Item>
+                    <Dropdown.Item eventKey={`${coreConstants.wethTokenName}`}>{`${coreConstants.wethTokenName}`}</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               </div>
+              
               
             </div>
             {

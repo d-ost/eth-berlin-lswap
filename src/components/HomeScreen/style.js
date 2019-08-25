@@ -8,7 +8,7 @@ export default {
     headerText: {
         color: '#fff',
         fontWeight: 'bolder',
-        fontSize: '24px'        
+        fontSize: '24px'
     }
 
 }

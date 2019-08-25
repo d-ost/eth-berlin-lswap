@@ -1,4 +1,4 @@
-import coreConstants from '../../config/coreConstants';
+import coreConstants from '../config/coreConstants';
 import Web3Provider from "./Web3Provider";
 import CoreAbis from "../config/CoreAbis";
 

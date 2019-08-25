@@ -16,7 +16,7 @@ class Send {
     console.log(params, 'params Send');
 
     oThis.sendTokenName = params.sendTokenName;
-    oThis.sendTokenAmount = params.sendTokenAmount;
+    oThis.sendTokenAmount = parseInt(params.sendTokenAmount);
     oThis.senderOriginAddress = params.senderOriginAddress;
     oThis.senderOriginPrivateKey = params.senderOriginAddressPrivateKey;
 
@@ -31,6 +31,12 @@ class Send {
     let sendTokenBalance = params.senderBalance[oThis.sendTokenName] || {};
     let receiveOption = params.receiveOption;
 
+    let sendTokenBalanceFormatted = {};
+    for(let i=0; i< sendTokenBalance.length; i++){
+      let obj = sendTokenBalance[i];
+      sendTokenBalanceFormatted[obj.chainKind] = parseInt(obj.balance);
+    }
+
 
     oThis.allowAux = receiveOption.allowAux || 0;
     oThis.preferredToken = receiveOption.preferredToken;
@@ -38,8 +44,8 @@ class Send {
 
     oThis.receiverAuxSafeContractAddress = receiveOption.safeContractAddress;
 
-    oThis.senderAuxTokenBalance = sendTokenBalance[coreConstants.auxChainKind] || 0;
-    oThis.senderOriginTokenBalance = sendTokenBalance[coreConstants.originChainKind] || 0;
+    oThis.senderAuxTokenBalance = parseInt(sendTokenBalanceFormatted[coreConstants.auxChainKind]) || 0;
+    oThis.senderOriginTokenBalance = parseInt(sendTokenBalanceFormatted[coreConstants.originChainKind]) || 0;
 
     oThis.stepsConfig = [];
   }

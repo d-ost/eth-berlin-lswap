@@ -6,8 +6,7 @@ import CoreAbis from '../../src/config/CoreAbis';
 class GetBalance {
 
   constructor(params) {
-    const oThis = this;
-    console.log(params, 'params GetBalance');
+    const oThis = this;    
     oThis.chainKind = params.chainKind;
     oThis.address = params.address;
     oThis.tokenName = params.tokenName;

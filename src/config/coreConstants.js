@@ -109,6 +109,14 @@ class CoreConstants {
     }
   }
 
+  get getColor(){
+    return {
+        [this.originChainKind]: '#ef808d',
+        [this.auxChainKind] : '#ec2d44'
+
+    }
+  }
+
   getOriginChainContractAddress(tokenName) {
     switch (tokenName) {
       case this.ostTokenName:
@@ -148,6 +156,15 @@ class CoreConstants {
 
   get layerSwapStep() {
     return 'layerSwapStep';
+  }
+  get showcasedChain(){
+    return {
+      [this.auxChainKind]: 'Mosaic (Layer-2)',
+      [this.originChainKind]: 'Girly (Testnet)',
+
+      
+    }
+
   }
 
 }

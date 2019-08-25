@@ -10,7 +10,13 @@ import Send from '../../lib/Send';
 class SendToken extends Component {
   constructor(props) {
     super(props);
-    this.state = {qrcodeValue: '', amountToSend: 0, sendScreen: false};
+    this.state = {
+      qrcodeValue: '',
+      amountToSend: 0,
+      sendScreen: false,
+      amountError: '',
+      successMessage: '',
+    };
     this.AuxBurnerKey = null;
     this.checkedSteps = [];
   }
@@ -26,7 +32,6 @@ class SendToken extends Component {
   };
 
   changeAmount = event => {
-    console.log(event, 'valllllllllll');
     this.setState({
       amountToSend: event.target.value,
     });
@@ -57,6 +62,11 @@ class SendToken extends Component {
 
     if (this.sendConfig.success) {
       this.setState({sendScreen: true});
+    } else {
+      this.setState({
+        amountError: this.sendConfig.errMsg,
+      });
+      console.log(this.sendConfig.errMsg);
     }
   };
 
@@ -64,20 +74,21 @@ class SendToken extends Component {
     let data = this.sendConfig.data;
     let mapped = data.stepsConfig.map(config => {
       let val = Object.values(config)[0];
-      this.checkedSteps.push(Object.keys(config)[0]);
+      this.checkedSteps.push(Object.keys(config)[0]);      
       return (
         <div
           className="custom-control custom-checkbox m-3"
           style={{color: '#4d5d71'}}>
           <input
             type="checkbox"
-            class="custom-control-input"
+            className="custom-control-input"
             id="customCheck"
             name={Object.keys(config)[0]}
             defaultChecked={true}
             onChange={this.handleInputChange}
+            disabled={val.mandatory}
           />
-          <label class="custom-control-label" htmlFor="customCheck">
+          <label className="custom-control-label" htmlFor="customCheck">
             {val.msg}
           </label>
         </div>
@@ -87,7 +98,7 @@ class SendToken extends Component {
     return (
       <div>
         {mapped}
-        <div class="row">
+        <div className="row">
           <button
             className="btn btn-primary my-4 mx-auto"
             style={{
@@ -97,6 +108,11 @@ class SendToken extends Component {
             onClick={this.finalSend}>
             Send
           </button>
+          {this.state.successMessage && (
+            <div class="alert alert-success" role="alert">
+              {this.state.successMessage}
+            </div>
+          )}
         </div>
       </div>
     );
@@ -133,14 +149,19 @@ class SendToken extends Component {
           .currentSelectedSend.tokenInfo,
       },
       steps: this.checkedSteps,
-      senderOriginPrivateKey: JSON.parse(
+      senderOriginAddressPrivateKey: JSON.parse(
         await ls.getItem(coreConstants.ORIGIN_BURNER_KEY),
       ).privateKey,
     };
 
     let send = new Send(senderObj),
-    response = await send.perform();
-    console.log(response, 'senderObjsenderObjsenderObjsenderObj');    
+      response = await send.perform();
+    if (response.success) {
+      this.setState({successMessage: 'Transaction Successful!'});
+    } else {
+      console.log(response, response.error, 'fffffffff')
+    }
+    console.log(response, 'senderObjsenderObjsenderObjsenderObj');
   };
 
   showSendScreenHandler = () => {
@@ -153,18 +174,24 @@ class SendToken extends Component {
     return this.state.qrcodeValue ? (
       <div>
         <div style={{backgroundColor: '#fff', color: '#4d5d71'}}>
-          <div class="form-group m-3">
+          <div className="form-group m-3">
             <label htmlFor="formGroupExampleInput">Amount</label>
             <input
               type="number"
-              class="form-control"
+              className="form-control"
               id="formGroupExampleInput"
               placeholder="Enter amount here"
               value={this.state.amountToSend}
               onChange={this.changeAmount}
             />
+            {this.state.amountError && (
+              <div class="alert alert-danger" role="alert">
+                {this.state.amountError}
+              </div>
+            )}
+            {/* <div style={{color: 'red'}}></div> */}
           </div>
-          <div class="row">
+          <div className="row">
             <button
               className="btn btn-primary my-4 mx-auto"
               style={{
@@ -189,7 +216,7 @@ class SendToken extends Component {
             style={{width: '300px', height: '300px'}}
           />
         </div>
-        <div class="row">
+        <div className="row">
           <button
             className="btn btn-primary my-4 mx-auto"
             style={{

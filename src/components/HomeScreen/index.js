@@ -11,9 +11,9 @@ import TokenHeader from './tokenHeader';
 import Modal from "react-bootstrap/es/Modal";
 import ReceiveToken from '../ReceiveToken';
 import ApproveAddress from '../../lib/ApproveAddress';
-// import SendToken from '../SendToken';
+import SendToken from '../SendToken';
 
-const chains = ['origin', 'aux'];
+const chains = ['aux', 'origin' ];
 
 class Homescreen extends Component {
   constructor(props) {
@@ -127,24 +127,22 @@ class Homescreen extends Component {
       let promises = this.getTokenInfo(tokens[cnt]);
       let res = await Promise.all(promises);
 
-      let balance = [];
-      let tokenKey = tokens[cnt];
-      let data = {tokenInfo: [], tokenName: tokenKey};
-      for (let cnt = 0; cnt < res.length; cnt++) {
-        data.tokenInfo.push({...res[cnt]['data'], ...{chainKind: chains[cnt]}});
-
-      }
-      balance.push(data);
-      this.setState({balance: [...this.state.balance, ...balance]});
-
-      console.log(this.state.balance, 'this.state.balance');
+            let balance = [];
+            let tokenKey =  tokens[cnt];
+            let data = {tokenInfo : [], tokenName:tokenKey };
+            for(let cnt = 0 ;  cnt < res.length ; cnt++ ){                
+                 data.tokenInfo.push({...res[cnt]['data'], ...{chainKind: chains[cnt]}  });
+                
+            }
+            balance.push( data );
+            this.setState({ balance:  [...this.state.balance, ...balance]});
     }
   }
 
   showChainBalances(tokenInfo) {
     return tokenInfo.map((element, i) => {
       return (
-        < div
+        <div
       key = {i}
       className = "row"
       style = {
@@ -154,32 +152,31 @@ class Homescreen extends Component {
         '10px'
       }
     }>
-    <
-      div
-      className = "col-6 "
+    <div
+      className = "col-6 text-capitalize font-weight-bold"
       style = {
       {
-        textAlign: 'left'
+        textAlign: 'left',
+        color: coreConstants.getColor[element.chainKind]
       }
     }>
       {
-        element.chainKind
+        coreConstants.showcasedChain[element.chainKind]
       }
-    <
-      /div>
-      < div
+    </div>
+      <div
       className = "col-6"
       style = {
       {
-        textAlign: 'right'
+        textAlign: 'right',
+        color: coreConstants.getColor[element.chainKind]
       }
     }>
       {
         element.balance
       }
-    <
-      /div>
-      < /div>
+    </div>
+      </div>
     )
       ;
     });
@@ -195,15 +192,13 @@ class Homescreen extends Component {
       }
 
       return (
-        < Collapsible
-      key = {i}
+        <Collapsible
+          key = {`${i}_${Math.random()}`}
       trigger = {
         < TokenHeader
-      tokenName = {element.tokenName
-    }
+      tokenName = {element.tokenName}      
       totalBalance = {totalBalance}
-      tokenInfo = {element.tokenInfo
-    }
+      tokenInfo = {element.tokenInfo}
       showSend = {this.showSendModalHandler
     }
       />
@@ -213,15 +208,13 @@ class Homescreen extends Component {
         width: '100%'
       }
     }>
-    <
-      div
+    <div
       style = {
       {
         width: '100%'
       }
     }>
-    <
-      div
+    <div
       style = {
       {
         backgroundColor: '#fff',
@@ -236,10 +229,9 @@ class Homescreen extends Component {
       {
         this.showChainBalances(element.tokenInfo)
       }
-    <
-      /div>
-      < /div>
-      < /Collapsible>
+    </div>
+      </div>
+      </Collapsible>
     )
       ;
     });
@@ -248,104 +240,47 @@ class Homescreen extends Component {
   headerText() {
 
     return (
-      < div
-  class
-    = "row mt-3"
-    style = {
-    {
-      backgroundColor: 'rgb(52, 68, 91)', borderRadius
-    :
-      '6px'
-    }
-  }>
-  <
-    div
-  class
-    = "col-3" >
-      < div
-    style = {
-    {
-      fontWeight: 'bolder',
-        height
-    :
-      '60px',
-        color
-    :
-      'white',
-        paddingRight
-    :
-      '20px',
-        paddingTop
-    :
-      '20px',
-    }
-  }>
-    Tokens
-    < /div>
-    < /div>
-    < div
-  class
-    = "col-6"
-    style = {
-    {
-      textAlign: 'right'
-    }
-  }>
-  <
-    div
-    style = {
-    {
-      fontWeight: 'bolder',
-        height
-    :
-      '60px',
-        color
-    :
-      'white',
-        paddingRight
-    :
-      '20px',
-        paddingTop
-    :
-      '20px',
-    }
-  }>
-    Action
-    < /div>
-    < /div>
-    < div
-  class
-    = "col-3"
-    style = {
-    {
-      textAlign: 'right'
-    }
-  }>
-  <
-    div
-    style = {
-    {
-      fontWeight: 'bolder',
-        height
-    :
-      '60px',
-        color
-    :
-      'white',
-        paddingRight
-    :
-      '20px',
-        paddingTop
-    :
-      '20px',
-    }
-  }>
-    Balance
-    < /div>
-    < /div>
-    < /div>
-  )
-    ;
+      <div
+          className="row mt-3"
+        style={{backgroundColor: 'rgb(52, 68, 91)', borderRadius: '6px'}}>
+        <div className="col-3">
+          <div
+            style={{
+              fontWeight: 'bolder',
+              height: '60px',
+              color: 'white',
+              paddingRight: '20px',
+              paddingTop: '20px',
+            }}>
+            Tokens
+          </div>
+        </div>
+        <div className="col-6" style={{textAlign: 'right'}}>
+          <div
+            style={{
+              fontWeight: 'bolder',
+              height: '60px',
+              color: 'white',
+              paddingRight: '20px',
+              paddingTop: '20px',
+            }}>
+            Action
+          </div>
+        </div>
+        <div className="col-3" style={{textAlign: 'right'}}>
+          <div
+            style={{
+              fontWeight: 'bolder',
+              height: '60px',
+              color: 'white',
+              paddingRight: '20px',
+              paddingTop: '20px',
+            }}>
+            Balance
+          </div>
+        </div>
+      </div>
+    );
   }
 
   showReceiveModalHandler = () => {
@@ -376,7 +311,6 @@ class Homescreen extends Component {
   };
 
   render() {
-    console.log(this.state.balance, 'this.state.balance');
     return (
       <div className="container" style={style.homeContainer}>
         <div className="alert alert-primary col-12" role="alert">
@@ -402,7 +336,7 @@ class Homescreen extends Component {
           show={this.state.showSendModal}
           onHide={this.closeSendToken}
           title="Receive">
-          {/* <SendToken onHide={this.closeSendToken}  currentSelectedSend={this.state.currentSelectedSend}  /> */}
+          <SendToken onHide={this.closeSendToken}  currentSelectedSend={this.state.currentSelectedSend}  />
         </Modal>
       </div>
     );
