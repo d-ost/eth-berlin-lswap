@@ -372,17 +372,15 @@ class Homescreen extends Component {
     this.setState({
       showSendModal: false,
       currentSelectedSend: null,
-    });
+    })
   };
 
   render() {
     console.log(this.state.balance, 'this.state.balance');
     return (
       <div className="container" style={style.homeContainer}>
-        <div className="row align-items-center" style={style.header}>
-          <div className="col-12" style={style.headerText}>
-            L-Swap
-          </div>
+        <div className="alert alert-primary col-12" role="alert">
+            LSWAP
         </div>
         <div className="m-3">
           {this.headerText()}

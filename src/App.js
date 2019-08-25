@@ -6,6 +6,7 @@ import CreateWallet from "./components/CreateWallet";
 import RecoverWallet from "./components/RecoverWallet";
 
 import Header from "./components/Landing/header";
+import Friends from './components/Friends';
 
 const App = () => (
   <HashRouter basename={window.location.pathname}>
@@ -17,6 +18,7 @@ const App = () => (
             <Route exact path="/" component={Homescreen} />
             <Route path="/create-wallet" component={CreateWallet} />
             <Route path="/recover-wallet" component={RecoverWallet} />
+            <Route path="/friends" component={Friends} />
           </div>
         </div>
       </div>

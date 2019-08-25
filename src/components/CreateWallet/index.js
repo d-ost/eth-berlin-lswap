@@ -51,9 +51,9 @@ class CreateWallet extends Component {
     })
   }
 
-  onUserNameChange = (val) => {
-    this.setState({username: val});
-}
+  onUserNameChange = (event) => {
+    this.setState({username:  event.target.value});
+  }
 
   onPin = (val) => {
     this.setState({pin: val});
