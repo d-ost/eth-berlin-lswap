@@ -35,12 +35,12 @@ class Header extends Component {
                             <React.Fragment>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/create-wallet">
-                                        Create Wallet
+                                        Create Safe
                                         </Link>
                                     </li>
                                     <li className="nav-item">
                                         <Link className="nav-link" to="/recover-wallet">
-                                            Recover Wallet
+                                            Recover Safe
                                         </Link>
                                 </li>
                                     
