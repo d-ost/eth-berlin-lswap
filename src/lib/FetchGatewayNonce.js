@@ -1,5 +1,6 @@
 
-const Web3 = require('web3');
+import Web3Provider from '../../src/lib/Web3Provider' ;
+import coreConstants from '../../src/config/coreConstants';
 
 const gatewayAbi = [
   {
@@ -1624,7 +1625,7 @@ const composerAbi = [
 ];
 const composerAddress = '0xeaa192d486ac5243886a28001e27a68cae5fde4b';
 
-const web3 = new Web3('https://mosaicdao.org/origin/goerli');
+const web3 = new Web3Provider(coreConstants.ORIGIN_WS_PROVIDER);
 
 class FetchGatewayNonce {
 
@@ -1661,7 +1662,9 @@ class FetchGatewayNonce {
 
 }
 
-new FetchGatewayNonce({
-  stakerAddress: '0xAf9327b0A8F1Af06992Ff7F24ECa6541c5653B30',
-  gatewayAddress: '0xe11e76C1ecA13Ae4ABA871EabDf37C24b8e1928B'
-}).perform().then(console.log);
+export default FetchGatewayNonce;
+
+// new FetchGatewayNonce({
+//   stakerAddress: '0xAf9327b0A8F1Af06992Ff7F24ECa6541c5653B30',
+//   gatewayAddress: '0xe11e76C1ecA13Ae4ABA871EabDf37C24b8e1928B'
+// }).perform().then(console.log);
