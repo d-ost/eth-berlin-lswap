@@ -49,7 +49,7 @@ class Friends extends Component {
 
           <div className="col-12">
             <div className="form-group row">
-              <label  className="col-sm-2 col-form-label">Username</label>
+              <label  className="col-sm-2 col-form-label" style={{fontSize: "22px",marginTop: "-4px"}}>Username</label>
               <div className="col-6">
                   <input type="text" className="form-control" 
                           style={{backgroundColor: "#fff"}}
