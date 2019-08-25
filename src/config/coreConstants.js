@@ -53,16 +53,16 @@ class CoreConstants {
 
   get ethFunderAddress() {
     return {
-      address: '0xfC07fDA7bDa2E62408D9bd7bFd1C19E61cb76031',
-      privateKey: '0x9D966E0021308793DDEB9F997710DFCAC0141C8C26BF733996D532EF30631463',
+      address: process.env.REACT_APP_ORIGIN_RELAYER_ADDRESS,
+      privateKey: process.env.REACT_APP_ORIGIN_RELAYER_PRIVATE_KEY,
       fundAmount: 100000000000000000 //0.1 eth
     }
   }
 
   get ostFunderAddress() {
     return {
-      address: '',
-      privateKey: '',
+      address: process.env.REACT_APP_AUXILIARY_RELAYER_ADDRESS,
+      privateKey: process.env.REACT_APP_AUXILIARY_RELAYER_PRIVATE_KEY,
       fundAmount: 100000000000000000 //0.1 eth
     }
   }
