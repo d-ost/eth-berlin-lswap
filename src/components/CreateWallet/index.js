@@ -193,7 +193,7 @@ class CreateWallet extends Component {
               
               <button className="btn btn-outline-secondary"
                   onClick={this.onSubmit}
-                style={{width: "260px"}}>  CREATE WALLET  </button>
+                style={{width: "260px"}}>  CREATE SAFE </button>
 
             </form>
           ) }
