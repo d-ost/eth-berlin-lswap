@@ -32,7 +32,8 @@ class Friends extends Component {
   showUsers = () =>{
     return this.isUsers() && (
       this.state.users.map((user)=> {
-        return  <div className="alert alert-warning"  style={{textAlign: "center"}} role="alert">{user}</div> 
+        return  <div className="alert alert-warning" 
+         style={{textAlign: "left" , float: "left" , marginRight: "20px"}} role="alert">{user}</div> 
       })
     )
   }
@@ -53,6 +54,7 @@ class Friends extends Component {
                   <input type="text" className="form-control" 
                           style={{backgroundColor: "#fff"}}
                           autocomplete="off"
+                          value={this.state.userName}
                           autoFocus={true}
                           onChange={this.onUserNameChange}
                           placeholder="Username" />
