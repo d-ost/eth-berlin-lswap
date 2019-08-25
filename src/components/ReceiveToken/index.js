@@ -40,7 +40,7 @@ class ReceiveToken extends Component {
     }
 
     if(this.AuxBurnerKey){
-        qrcodeValue.auxAddress =   JSON.parse(this.AuxBurnerKey).address;
+        qrcodeValue.safeContractAddress =   JSON.parse(this.AuxBurnerKey).safeContractAddress;
     }
       this.setState({qrcodeValue: JSON.stringify(qrcodeValue)});
       console.log(originBurnerKey, 'originBurnerKey');

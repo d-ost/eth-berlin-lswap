@@ -34,8 +34,8 @@ class Send {
     oThis.allowAux = receiveOption.allowAux || 0;
     oThis.preferredToken = receiveOption.preferredToken;
     oThis.receiverOriginAddress = receiveOption.originAddress;
-    oThis.receiverAuxAddress = receiveOption.auxAddress || null;
-    oThis.receiverAuxSafeContractAddress = receiveOption.receiverAuxSafeContractAddress;
+
+    oThis.receiverAuxSafeContractAddress = receiveOption.safeContractAddress;
 
     oThis.senderAuxTokenBalance = sendTokenBalance[coreConstants.auxChainKind] || 0;
     oThis.senderOriginTokenBalance = sendTokenBalance[coreConstants.originChainKind] || 0;
