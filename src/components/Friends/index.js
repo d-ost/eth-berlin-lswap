@@ -16,6 +16,8 @@ class Friends extends Component {
       <div className="container">
         <div className="row">
 
+            
+
          </div> 
       </div>
     );

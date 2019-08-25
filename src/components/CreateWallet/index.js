@@ -96,6 +96,8 @@ class CreateWallet extends Component {
     let account = web3Instance.eth.accounts.create() ;
 
     ls.saveItem( localStorageKey , {address : account.address , privateKey : account.privateKey}  );
+    ls.saveItem( "current_user_name" , this.state.username  );
+    ls.saveItem( "current_user_pin" , this.state.pin  );
   
     this.setState({qrcodeValue: JSON.stringify( {"address": account.address}) ,  showQR: true , noUser: false});
 
