@@ -59,6 +59,8 @@ class OriginTokenToTokenTransfer {
 
       const erc20TokenContractObj = new oThis.web3Instance.eth.Contract(CoreAbis.genericUniSwap, oThis.uniSwapContractAddress);
 
+      console.log("HERE========================", oThis.uniSwapContractAddress,   oThis.swapErc20ContractAddress, oThis.amount);
+
       erc20TokenContractObj.methods
         .tokenToTokenTransferInput(
           oThis.amount,

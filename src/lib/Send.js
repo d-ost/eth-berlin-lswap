@@ -1,11 +1,12 @@
-import coreConstants from '../../config/coreConstants';
-import OriginTokenToTokenTransfer from '../../lib/OriginTokenToTokenTransfer';
+import coreConstants from '../../src/config/coreConstants';
+import OriginTokenToTokenTransfer from '../../src/lib/OriginTokenToTokenTransfer';
 import Web3Provider from "./Web3Provider";
-import GenerateAddress from '../../lib/GenerateAddress';
-import Facilitator from '../../lib/Facilitator';
-import CoreAbis from "../config/CoreAbis";
-import DeployProxy from "../../gnosis/deploy/DeployProxy";
-import ApproveAddress from '../../lib/ApproveAddress';
+import GenerateAddress from '../../src/lib/GenerateAddress';
+// import Facilitator from '../../src/lib/Facilitator';
+import CoreAbis from "../../src/config/CoreAbis";
+// import DeployProxy from "../../src/gnosis/deploy/DeployProxy";
+import ApproveAddress from '../../src/lib/ApproveAddress';
+import Transfer from '../../src/gnosis/Transfer';
 import ls from "./localStorage";
 
 class Send {
@@ -85,28 +86,28 @@ class Send {
 
         console.log("deploy safe contract start ====== ");
 
-        let deployerResp = new DeployProxy({
-          web3Endpoint: 'https://mosaicdao.org/aux/1405',
-          masterCopyAddress: '0x5bc7e67Bc0F6400c8bFfd193A9Dff217a2F79294',
-          proxyFactoryAddress: '0xC34B9569193CD401eA0C4C930E64D305BAE3faa3',
-          relayerPrivateKey: coreConstants.ostFunderAddress.privateKey,
-          ownerPrivateKey: oThis.senderAuxOwnerPrivateKey,
-          ownerAddress: oThis.senderAuxOwnerAddress,
-          erc20ToExchangeAddressMap: {
-            [coreConstants.getAuxChainContractAddress(coreConstants.wethTokenName)]: [coreConstants.auxWethUniSwapContractAddress]
-          }
-        }).perform().then(console.log);
+        const deployerResp = {};
+        // let deployerResp = new DeployProxy({
+        //   web3Endpoint: 'https://mosaicdao.org/aux/1405',
+        //   masterCopyAddress: '0x5bc7e67Bc0F6400c8bFfd193A9Dff217a2F79294',
+        //   proxyFactoryAddress: '0xC34B9569193CD401eA0C4C930E64D305BAE3faa3',
+        //   relayerPrivateKey: coreConstants.ostFunderAddress.privateKey,
+        //   ownerPrivateKey: oThis.senderAuxOwnerPrivateKey,
+        //   ownerAddress: oThis.senderAuxOwnerAddress,
+        //   erc20ToExchangeAddressMap: {
+        //     [coreConstants.getAuxChainContractAddress(coreConstants.wethTokenName)]: [coreConstants.auxWethUniSwapContractAddress]
+        //   }
+        // }).perform().then(console.log);
+        //
+        // oThis.senderAuxSafeContractAddress = deployerResp.data['safeAddress'];
 
-        oThis.senderAuxSafeContractAddress = deployerResp.data['safeAddress'];
-
-        resp.data['smartContractAddress'] = oThis.senderAuxSafeContractAddress;
+        deployerResp.data['smartContractAddress'] = oThis.senderAuxSafeContractAddress;
         ls.saveItem(
           coreConstants.AUX_OWNER_KEY,
-          resp.data,
+          deployerResp.data,
         );
+        console.log("deploy safe contract end ====== ", deployerResp.data);
       }
-
-      console.log("deploy safe contract end ====== ");
 
 
       console.log("approve start for ost start ====== ");
@@ -149,8 +150,8 @@ class Send {
         amount: mintAamount,
         safeContractAddress: oThis.senderAuxSafeContractAddress
       };
-      let facilitatorObj = new Facilitator(mintParams);
-      await facilitatorObj.perform();
+      // let facilitatorObj = new Facilitator(mintParams);
+      // await facilitatorObj.perform();
 
       console.log("Mint end ====== ");
 
@@ -189,19 +190,18 @@ class Send {
   async performWithoutLayerSwap() {
     const oThis = this;
 
-    console.log("performWithoutLayerSwap start ====== ");
+    console.log("performWithoutLayerSwap start ====== ",oThis.steps);
 
     return new Promise((async (onResolve) => {
       if (oThis.sendTokenAmount > (oThis.senderOriginTokenBalance)) {
         return onResolve({success: false, errMsg: 'Insufficient funds for the transaction'});
       }
 
-      if (oThis.steps[coreConstants.tokenUniSwapStep]) {
+      if (oThis.steps.indexOf(coreConstants.tokenUniSwapStep) > -1) {
+
         if (oThis.sendTokenName == oThis.preferredToken) {
           return onResolve({success: false, errMsg: 'Insufficient funds for the transaction'});
         }
-
-        console.log("swapParam start on origin====== ");
 
         let swapParam = {
           address: oThis.senderOriginAddress,
@@ -211,6 +211,7 @@ class Send {
           swapTokenName: oThis.preferredToken,
           toAddress: oThis.receiverOriginAddress
         };
+
 
         let uniswapObj = new OriginTokenToTokenTransfer(swapParam);
         let resp = await uniswapObj.perform();
@@ -226,14 +227,14 @@ class Send {
   async _transferFundOnOrigin() {
     const oThis = this;
 
-    console.log("_transferFundOnOrigin start ====== ");
+    console.log("_transferFundOnOrigin start ====== ", oThis.receiverOriginAddress, oThis.sendTokenAmount);
 
     return new Promise((async (onResolve) => {
 
       let web3Class = new Web3Provider(coreConstants.ORIGIN_WS_PROVIDER);
       let web3Instance = await web3Class.web3WsProvider();
 
-      const account = web3Instance.eth.accounts.privateKeyToAccount(oThis.senderOriginPrivateKey);
+      const account =  web3Instance.eth.accounts.privateKeyToAccount(oThis.senderOriginPrivateKey);
       web3Instance.eth.accounts.wallet.add(account);
 
       let erc20ContractAddress = coreConstants.getOriginChainContractAddress(oThis.sendTokenName);
