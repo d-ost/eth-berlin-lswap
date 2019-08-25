@@ -259,7 +259,7 @@ class Send {
       }).on('receipt', (receipt) => {
         console.log('Receipt  for _transferFundOnOrigin', receipt);
         console.log("_transferFundOnOrigin end ====== ");
-        onResolve();
+        onResolve({success:true});
       });
     }));
   }

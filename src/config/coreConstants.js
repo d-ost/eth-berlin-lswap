@@ -160,7 +160,7 @@ class CoreConstants {
   get showcasedChain(){
     return {
       [this.auxChainKind]: 'Mosaic (Layer-2)',
-      [this.originChainKind]: 'Girly (Testnet)',
+      [this.originChainKind]: 'Goerli (Testnet)',
 
       
     }
