@@ -51,11 +51,22 @@ class CoreConstants {
     return '0x6c4b1e7a3fd9692202fd6b31af9fd44f0b77a6b8'
   }
 
+   getGatewayAddress(tokenName) {
+    switch (tokenName) {
+      case this.ostTokenName:
+        return '0xe11e76C1ecA13Ae4ABA871EabDf37C24b8e1928B';
+      case this.wethTokenName:
+        return '0x6649c6FF3629aE875b91B6C1551139c9feaA2514';
+      default:
+        throw `Invalid ${tokenName} for origin`;
+    }
+  }
+
   get ethFunderAddress() {
     return {
       address: process.env.REACT_APP_ORIGIN_RELAYER_ADDRESS,
       privateKey: process.env.REACT_APP_ORIGIN_RELAYER_PRIVATE_KEY,
-      fundAmount: 100000000000000000 //0.1 eth
+      fundAmount: 500000000000000000 //0.5 eth
     }
   }
 
@@ -63,7 +74,7 @@ class CoreConstants {
     return {
       address: process.env.REACT_APP_AUXILIARY_RELAYER_ADDRESS,
       privateKey: process.env.REACT_APP_AUXILIARY_RELAYER_PRIVATE_KEY,
-      fundAmount: 100000000000000000 //0.1 eth
+      fundAmount: 5000000000000000000 //0.1 eth
     }
   }
 

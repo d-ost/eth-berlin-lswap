@@ -2,8 +2,10 @@ import coreConstants from '../../config/coreConstants';
 import OriginTokenToTokenTransfer from '../../lib/OriginTokenToTokenTransfer';
 import Web3Provider from "./Web3Provider";
 import GenerateAddress from '../../lib/GenerateAddress';
+import Facilitator from '../../lib/Facilitator';
 import CoreAbis from "../config/CoreAbis";
 import DeployProxy from "../../gnosis/deploy/DeployProxy";
+import ApproveAddress from '../../lib/ApproveAddress';
 import ls from "./localStorage";
 
 class Send {
@@ -32,8 +34,8 @@ class Send {
     oThis.allowAux = receiveOption.allowAux || 0;
     oThis.preferredToken = receiveOption.preferredToken;
     oThis.receiverOriginAddress = receiveOption.originAddress;
-    oThis.receiverAuxAddress = receiveOption.auxAddress || null;
-    oThis.receiverAuxSafeContractAddress = receiveOption.receiverAuxSafeContractAddress;
+
+    oThis.receiverAuxSafeContractAddress = receiveOption.safeContractAddress;
 
     oThis.senderAuxTokenBalance = sendTokenBalance[coreConstants.auxChainKind] || 0;
     oThis.senderOriginTokenBalance = sendTokenBalance[coreConstants.originChainKind] || 0;
@@ -66,14 +68,22 @@ class Send {
 
   async performWithLayerSwap() {
     const oThis = this;
+    console.log("performWithLayerSwap start ====== ");
+
     return new Promise((async (onResolve) => {
 
       if (!oThis.senderAuxAddress) {
+        console.log("GenerateAddress start ====== ");
+
         let generateAddress = new GenerateAddress();
         let resp = await generateAddress.perform;
 
         oThis.senderAuxOwnerAddress = resp.data.address;
         oThis.senderAuxOwnerPrivateKey = resp.data.privateKey;
+
+        console.log("GenerateAddress end ====== ");
+
+        console.log("deploy safe contract start ====== ");
 
         let deployerResp = new DeployProxy({
           web3Endpoint: 'https://mosaicdao.org/aux/1405',
@@ -87,16 +97,62 @@ class Send {
           }
         }).perform().then(console.log);
 
-        resp.data['smartContractAddress'] = deployerResp.data['safeAddress'];
+        oThis.senderAuxSafeContractAddress = deployerResp.data['safeAddress'];
+
+        resp.data['smartContractAddress'] = oThis.senderAuxSafeContractAddress;
         ls.saveItem(
           coreConstants.AUX_OWNER_KEY,
           resp.data,
         );
       }
 
+      console.log("deploy safe contract end ====== ");
+
+
+      console.log("approve start for ost start ====== ");
+      let approveParam1 = {
+        address: oThis.senderOriginAddress,
+        privateKey: oThis.senderOriginPrivateKey,
+        tokenName: coreConstants.ostTokenName,
+        chainKind: coreConstants.originChainKind,
+        approveAddress: '0xeaa192d486ac5243886a28001e27a68cae5fde4b'
+      };
+
+      let approverObj1 = new ApproveAddress(approveParam1);
+      await approverObj1.perform().then(console.log);
+
+      console.log("approve start for ost end ====== ");
+
+      console.log("approve start for weth start ====== ");
+
+      let approveParam2 = {
+        address: oThis.senderOriginAddress,
+        privateKey: oThis.senderOriginPrivateKey,
+        tokenName: coreConstants.wethTokenName,
+        chainKind: coreConstants.originChainKind,
+        approveAddress: '0xeaa192d486ac5243886a28001e27a68cae5fde4b'
+      };
+
+      let approverObj2 = new ApproveAddress(approveParam2);
+      await approverObj2.perform().then(console.log);
+
+      console.log("approve start for ost end ====== ");
+
+      console.log("Mint start ====== ");
+
       let mintAamount = oThis.sendTokenAmount - oThis.senderAuxTokenBalance;
 
-      //  todo: mint tokens in layer 2. use Facilitator
+      let mintParams = {
+        address: oThis.senderOriginAddress,
+        privateKey: oThis.senderOriginPrivateKey,
+        tokenName: oThis.sendTokenName,
+        amount: mintAamount,
+        safeContractAddress: oThis.senderAuxSafeContractAddress
+      };
+      let facilitatorObj = new Facilitator(mintParams);
+      await facilitatorObj.perform();
+
+      console.log("Mint end ====== ");
 
       if (oThis.steps[coreConstants.tokenUniSwapStep]) {
         if (oThis.sendTokenName == oThis.preferredToken) {
@@ -105,6 +161,8 @@ class Send {
 
         //  todo: call token uniswap function for layer 2
       } else {
+
+        console.log("Transfer start ====== ");
 
         const transferParams = {
           web3Endpoint: 'https://mosaicdao.org/aux/1405',
@@ -120,14 +178,18 @@ class Send {
         }
 
         await new Transfer(transferParams).perform().then(console.log);
+        console.log("Transfer end ====== ");
       }
 
+      console.log("performWithLayerSwap end ====== ");
       onResolve({success: true, data: {}});
     }));
   }
 
   async performWithoutLayerSwap() {
     const oThis = this;
+
+    console.log("performWithoutLayerSwap start ====== ");
 
     return new Promise((async (onResolve) => {
       if (oThis.sendTokenAmount > (oThis.senderOriginTokenBalance)) {
@@ -138,6 +200,8 @@ class Send {
         if (oThis.sendTokenName == oThis.preferredToken) {
           return onResolve({success: false, errMsg: 'Insufficient funds for the transaction'});
         }
+
+        console.log("swapParam start on origin====== ");
 
         let swapParam = {
           address: oThis.senderOriginAddress,
@@ -153,6 +217,7 @@ class Send {
         return onResolve(resp);
       } else {
         let transferResp = await oThis._transferFundOnOrigin();
+        console.log("performWithoutLayerSwap end ====== ");
         onResolve(transferResp);
       }
     }));
@@ -160,6 +225,8 @@ class Send {
 
   async _transferFundOnOrigin() {
     const oThis = this;
+
+    console.log("_transferFundOnOrigin start ====== ");
 
     return new Promise((async (onResolve) => {
 
@@ -184,6 +251,7 @@ class Send {
         console.log('Transaction hash for _transferFundOnOrigin', transactionHash);
       }).on('receipt', (receipt) => {
         console.log('Receipt  for _transferFundOnOrigin', receipt);
+        console.log("_transferFundOnOrigin end ====== ");
         onResolve();
       });
     }));

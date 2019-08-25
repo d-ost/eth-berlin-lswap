@@ -3,13 +3,12 @@ import coreConstants from '../config/coreConstants';
 class GetSendOptions {
 
   constructor(params) {
-    console.log(params, 'paramsparamsparamsparamsparams');
+    
     const oThis = this;
-    console.log(params, 'params GetSendOptions');
-
+    console.log(params,"GetSendOptions params");
 
     oThis.sendTokenName = params.sendTokenName;
-    oThis.sendTokenAmount = params.sendTokenAmount;
+    oThis.sendTokenAmount = parseInt(params.sendTokenAmount);
     oThis.senderOriginAddress = params.senderOriginAddress;
     oThis.senderAuxAddress = params.senderAuxAddress;
 
@@ -20,10 +19,16 @@ class GetSendOptions {
     oThis.allowAux = receiveOption.allowAux || 0;
     oThis.preferredToken = receiveOption.preferredToken;
     oThis.receiverOriginAddress = receiveOption.originAddress;
-    oThis.receiverAuxAddress = receiveOption.auxAddress || null;
+    oThis.receiverAuxSafeContractAddress = receiveOption.safeContractAddress || null;
 
-    oThis.senderAuxTokenBalance = sendTokenBalance[coreConstants.auxChainKind] || 0;
-    oThis.senderOriginTokenBalance = sendTokenBalance[coreConstants.originChainKind] || 0;
+    let sendTokenBalanceFormatted = {};
+    for(let i=0; i< sendTokenBalance.length; i++){
+      let obj = sendTokenBalance[i];
+      sendTokenBalanceFormatted[obj.chainKind] = parseInt(obj.balance);
+    }
+
+    oThis.senderAuxTokenBalance =  sendTokenBalanceFormatted[coreConstants.auxChainKind] || 0;
+    oThis.senderOriginTokenBalance = sendTokenBalanceFormatted[coreConstants.originChainKind] || 0;
 
     oThis.stepsConfig = [];
   }
@@ -31,6 +36,7 @@ class GetSendOptions {
   async perform() {
     const oThis = this;
 
+  
     if (oThis.sendTokenAmount > (oThis.senderAuxTokenBalance + oThis.senderOriginTokenBalance)) {
       return {success: false, errMsg: 'Insufficient funds for the transaction'}
     }
@@ -50,7 +56,7 @@ class GetSendOptions {
     }
 
 
-    if (oThis.receiverAuxAddress && oThis.allowAux == 1 && (oThis.senderAuxTokenBalance < oThis.sendTokenAmount)) {
+    if (oThis.receiverAuxSafeContractAddress && oThis.allowAux == 1 && (oThis.senderAuxTokenBalance < oThis.sendTokenAmount)) {
 
       let mintAamount = oThis.sendTokenAmount - oThis.senderAuxTokenBalance;
       let config = {
